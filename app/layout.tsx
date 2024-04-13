@@ -1,18 +1,12 @@
 import type { Metadata } from "next";
+import { abril_fatface, merriweather } from './font';
 import "./globals.css";
 
-import { Abril_Fatface } from 'next/font/google';
- 
-const abril_fatface = Abril_Fatface({
-  subsets: ['latin'],
-  display: 'swap',
-  weight: '400',
-  variable: '--font-abril-fatface'
-})
+
 
 export const metadata: Metadata = {
   title: "Based Place",
-  description: "Social experiment",
+  description: "Community experiment",
 };
 
 export default function RootLayout({
@@ -22,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={abril_fatface.className}>{children}</body>
+      <body className={`${abril_fatface.variable} ${merriweather.variable}`}>{children}</body>
     </html>
   );
 }

@@ -4,22 +4,35 @@
 
 :root {
   --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
+  --background--rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --foreground-rgb: 34, 38, 75;
+    --background-start-rgb: 102, 192, 255;
+    --background-end-rgb: 102, 192, 255;
   }
 }
 
 body {
   color: #22264B;
   background-color: #66C0E1;
-  font-size: 5rem;
+  font-family: var(--font-merriweather);
+  font-size: 1rem;
+}
+
+h1 {
+  font-size: 4.5rem;
+  font-family: var(--font-abril-fatface);
+}
+
+h2 {
+  font-size: 2rem;
+  font-family: var(--font-abril-fatface);
+  text-decoration: underline;
+  margin-bottom: 1rem;
 }
 
 @layer utilities {
