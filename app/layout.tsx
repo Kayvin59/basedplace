@@ -1,8 +1,14 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+import { Abril_Fatface } from 'next/font/google';
+ 
+const abril_fatface = Abril_Fatface({
+  subsets: ['latin'],
+  display: 'swap',
+  weight: '400',
+  variable: '--font-abril-fatface'
+})
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={abril_fatface.className}>{children}</body>
     </html>
   );
 }
