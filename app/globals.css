@@ -17,7 +17,7 @@
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
+  color: #22264B;
   background-color: #66C0E1;
   font-size: 5rem;
 }
