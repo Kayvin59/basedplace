@@ -1,24 +1,28 @@
+
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center p-12">
-      <h1 className="text-7xl mb-24">Based Place</h1>
-      <p className="w-full flex flex-col text-left text-xl mb-12">
+    <main className="flex min-h-screen flex-col items-center p-12 font-primary">
+      <h1 className="text-7xl mb-24 font-secondary">Based Place</h1>
+      <p className="w-full flex flex-col text-center text-xl mb-24">
         <span>
           Welcome to Based Place, where pixels art meets gamified minting.
         </span>
         <span>
-          Rally the troops
+          Most active community wins it all.
+        </span>
+        <span>
+          Rally your troops.
         </span>
       </p>
       <div className="w-full">
         <section>
-          <h2>About</h2>
+          <h2 className="font-bold text-2xl mb-6 underline">About</h2>
         </section>
         <section>
-          <h2>Playground</h2>
+          <h2 className="font-bold text-2xl mb-6 underline">Playground</h2>
         </section>
         <section>
-          <h2>Dashboard</h2>
+          <h2 className="font-bold text-2xl mb-6 underline">Dashboard</h2>
         </section>
       </div>
     </main>
