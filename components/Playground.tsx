@@ -28,37 +28,22 @@ const colors = [
   "#ffffff",
 ];
 
-/* const colors = [
-  "crimson",
-  "orange",
-  "amber",
-  "yellow",
-  "green",
-  "light_green",
-  "deep_aqua",
-  "sky_blue",
-  "indigo",
-  "cerulean",
-  "egg_blue",
-  "purple",
-  "electric_purple",
-  "magenta",
-  "lavender",
-  "hot_pink",
-  "pink",
-  "brown",
-  "saddle_brown",
-  "black",
-  "silver",
-  "light_gray",
-  "white",
-]; */
+const initialColor = "#FFFFFF";
 
 export default function Playground() {
-  const [selectedColor, setSelectedColor] = useState("#000000");
+  const [selectedColor, setSelectedColor] = useState(initialColor);
+  const [squareColors, setSquareColors] = useState(Array(25).fill(initialColor));
 
   const handleColorClick = (color: string) => {
     setSelectedColor(color);
+  };
+
+  const handleSquareClick = (index: number) => {
+    console.log(index);
+    const newColors = [...squareColors];
+    newColors[index] = selectedColor;
+    console.log(newColors);
+    setSquareColors(newColors);
   };
 
   return (
@@ -67,7 +52,7 @@ export default function Playground() {
         {colors.map((color, index) => (
           <div
             key={index}
-            className={`w-5 h-5 m-1 cursor-pointer bg-${color}`}
+            className={`w-5 h-5 m-1 cursor-pointer`}
             style={{ 
               backgroundColor: color,
             }}
@@ -75,13 +60,18 @@ export default function Playground() {
           ></div>
         ))}
       </div>
-      <div
-      className={`mt-5 bg-ri w-24 h-24 border border-black bg-${selectedColor}`}
-        style={{
-          backgroundColor: selectedColor,
-        }}
-      ></div>
-      
+      <div className={`mt-5 bg-gray-200 w-20 h-20 border border-black}`}>
+        <div className="grid grid-cols-5 grid-rows-5 gap-x-0 gap-y-0">
+        {squareColors.map((color, index) => (
+            <div
+              key={index}
+              className="w-4 h-4 cursor-pointer"
+              style={{ backgroundColor: color }}
+              onClick={() => handleSquareClick(index)}
+            ></div>
+          ))}
+        </div>
+      </div>      
     </div>
   );
 }

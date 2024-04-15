@@ -30,7 +30,7 @@ const config = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
 
-        // Map colors #be0039
+        // Map colors 
         crimson: "hsl(var(--crimson))",
         orange: "hsl(var(--orange))",
         amber: "hsl(var(--amber))",
@@ -103,6 +103,9 @@ const config = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      spacing: {
+        '250': '250px',
+      }
     },
   },
   plugins: [require("tailwindcss-animate")],
