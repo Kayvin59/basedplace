@@ -1,3 +1,4 @@
+import Playground from "@/components/Playground";
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
         </section>
         <section>
           <h2 className="font-bold text-2xl mb-6 underline">Playground</h2>
+          <Playground />
         </section>
         <section>
           <h2 className="font-bold text-2xl mb-6 underline">Dashboard</h2>
