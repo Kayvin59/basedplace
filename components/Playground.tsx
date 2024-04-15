@@ -1,5 +1,6 @@
 "use client"
 
+import ColorPicker from "@/components/ColorPicker";
 import { useState } from "react";
 
 const colors = [
@@ -48,18 +49,7 @@ export default function Playground() {
 
   return (
     <div>
-      <div className="flex flex-wrap">
-        {colors.map((color, index) => (
-          <div
-            key={index}
-            className={`w-5 h-5 m-1 cursor-pointer`}
-            style={{ 
-              backgroundColor: color,
-            }}
-            onClick={() => handleColorClick(color)}
-          ></div>
-        ))}
-      </div>
+      <ColorPicker colors={colors} onColorClick={handleColorClick} />
       <div className={`mt-5 bg-gray-200 w-20 h-20 border border-black}`}>
         <div className="grid grid-cols-5 grid-rows-5 gap-x-0 gap-y-0">
         {squareColors.map((color, index) => (
