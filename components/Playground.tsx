@@ -1,6 +1,7 @@
 "use client"
 
 import ColorPicker from "@/components/ColorPicker";
+import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import { useState } from "react";
 
 const colors = [
@@ -34,31 +35,41 @@ const initialColor = "#FFFFFF";
 export default function Playground() {
   const [selectedColor, setSelectedColor] = useState(initialColor);
   const [squareColors, setSquareColors] = useState(Array(25).fill(initialColor));
+  const [selectedIndex, setSelectedIndex] = useState(-1)
+  const [openDrawer, setOpenDrawer] = useState(false);
 
   const handleColorClick = (color: string) => {
     setSelectedColor(color);
   };
 
   const handleSquareClick = (index: number) => {
-    console.log(index);
+    setSelectedIndex(index);
+  };
+  
+  const handleConfirm = () => {
     const newColors = [...squareColors];
-    newColors[index] = selectedColor;
-    console.log(newColors);
+    newColors[selectedIndex] = selectedColor;
     setSquareColors(newColors);
+    setOpenDrawer(false);
   };
 
   return (
     <div>
-      <ColorPicker colors={colors} onColorClick={handleColorClick} />
-      <div className={`mt-5 bg-gray-200 w-20 h-20 border border-black}`}>
+      <div className={`mt-5 bg-gray-200 w-20 h-20`}>
         <div className="grid grid-cols-5 grid-rows-5 gap-x-0 gap-y-0">
         {squareColors.map((color, index) => (
-            <div
-              key={index}
-              className="w-4 h-4 cursor-pointer"
-              style={{ backgroundColor: color }}
-              onClick={() => handleSquareClick(index)}
-            ></div>
+          <Drawer key={index} open={openDrawer} onOpenChange={setOpenDrawer}>
+            <DrawerTrigger>
+              <div
+                className="w-4 h-4 cursor-pointer hover:border border-foreground"
+                style={{ backgroundColor: color }}
+                onClick={() => handleSquareClick(index)}
+              ></div>
+            </DrawerTrigger>
+            <DrawerContent>
+              <ColorPicker colors={colors} onColorClick={handleColorClick} onConfirm={handleConfirm}/>
+            </DrawerContent>
+          </Drawer>
           ))}
         </div>
       </div>      

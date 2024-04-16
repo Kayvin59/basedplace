@@ -16,14 +16,14 @@ export default function Home() {
         </span>
       </p>
       <div className="w-full">
-        <section>
+        <section className="mb-10">
           <h2 className="font-bold text-2xl mb-6 underline">About</h2>
         </section>
-        <section>
+        <section className="mb-10">
           <h2 className="font-bold text-2xl mb-6 underline">Playground</h2>
           <Playground />
         </section>
-        <section>
+        <section className="mb-10">
           <h2 className="font-bold text-2xl mb-6 underline">Dashboard</h2>
         </section>
       </div>
