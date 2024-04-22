@@ -6,7 +6,7 @@ import twitterLogo from '../public/twitter.svg';
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center p-12 font-primary">
-      <h1 className="text-7xl mb-24 font-secondary">Based Place</h1>
+      <h1 className="text-5xl md:text-7xl mb-24 font-secondary">Based Place</h1>
       <p className="mt-24 text-lg">
         Coming soon...
       </p>
