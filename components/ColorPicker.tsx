@@ -15,8 +15,9 @@ export default function ColorPicker({ colors, onColorClick, onConfirm }: ColorPi
   const [showError, setShowError] = useState(false);
 
   const handleColorClick = (color: string) => {
-    setSelectedColor(color);
-    onColorClick(color);
+    setSelectedColor(color)
+    onColorClick(color)
+    setShowError(false)
   }
 
   const handleConfirm = () => {
@@ -24,7 +25,7 @@ export default function ColorPicker({ colors, onColorClick, onConfirm }: ColorPi
       setShowError(true);
       return;
     }
-    onConfirm();
+    onConfirm()
     setSelectedColor(null)
   }
   

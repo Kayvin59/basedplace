@@ -1,26 +1,32 @@
-import Image from 'next/image';
-import Link from 'next/link';
-import mirrorLogo from '../public/mirror.svg';
-import twitterLogo from '../public/twitter.svg';
+import Playground from '@/components/Playground';
 
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center p-12 font-primary">
       <h1 className="text-7xl mb-24 font-secondary">Based Place</h1>
-      <p className="mt-24 text-lg">
-        Coming soon...
+      <p className="w-full flex flex-col text-center text-xl mb-24">
+        <span>
+          Welcome to Based Place, where pixels art meets gamified minting.
+        </span>
+        <span>
+          Most active community wins it all.
+        </span>
+        <span>
+          Rally your troops.
+        </span>
       </p>
-      <p className="mt-24 text-lg">
-        Presale is live on <a href="https://www.basejump.pro/viewpresale?tokenAddress=0x5e72435d6211884Cc0c80d3f65BACADCB2abc46A" className="hover:underline">@basejumpdotpro</a>
-      </p>
-      <footer className='flex justify-center mt-auto gap-2'>
-        <Link href="https://twitter.com/BasedPlace_">
-          <Image src={twitterLogo} alt="Twitter" />
-        </Link>
-        <Link href="https://twitter.com/BasedPlace_">
-          <Image src={mirrorLogo} alt="Mirror" />
-        </Link>
-      </footer>
+      <div className="w-full">
+        <section className="mb-10">
+          <h2 className="font-bold text-2xl mb-6 underline">About</h2>
+        </section>
+        <section className="mb-10">
+          <h2 className="font-bold text-2xl mb-6 underline">Playground</h2>
+          <Playground />
+        </section>
+        <section className="mb-10">
+          <h2 className="font-bold text-2xl mb-6 underline">Dashboard</h2>
+        </section>
+      </div>
     </main>
   );
 }
