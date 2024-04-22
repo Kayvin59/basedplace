@@ -10,7 +10,7 @@ export default function Home() {
       <p className="mt-24 text-lg">
         Coming soon...
       </p>
-      <p className="mt-24 text-lg">
+      <p className="mt-24 text-lg text-center">
         Presale is live on <a href="https://www.basejump.pro/viewpresale?tokenAddress=0x5e72435d6211884Cc0c80d3f65BACADCB2abc46A" className="hover:underline">@basejumpdotpro</a>
       </p>
       <footer className='flex justify-center mt-auto gap-2'>
