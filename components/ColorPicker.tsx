@@ -36,7 +36,7 @@ export default function ColorPicker({ colors, onColorClick, onConfirm }: ColorPi
             {colors.map((color, index) => (
               <div
                 key={index}
-                className={`w-5 h-5 m-1 cursor-pointer rounded-full last:border hover:rounded-none border-foreground ${selectedColor === color ? 'border-2 border-green-500' : ''}`} // "w-5 h-5 m-1 cursor-pointer last:border hover:border border-foreground"
+                className={`w-5 h-5 m-1 cursor-pointer rounded-full last:border hover:rounded-none border-foreground ${selectedColor === color ? 'border-2 border-green-500 rounded-none' : ''}`}
                 style={{ 
                   backgroundColor: color,
                 }}
