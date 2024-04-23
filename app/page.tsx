@@ -1,3 +1,4 @@
+import Dashboard from '@/components/Dashboard';
 import Playground from '@/components/Playground';
 
 export default function Home() {
@@ -25,6 +26,7 @@ export default function Home() {
         </section>
         <section className="mb-10">
           <h2 className="font-bold text-2xl mb-6 underline">Dashboard</h2>
+          <Dashboard />
         </section>
       </div>
     </main>
