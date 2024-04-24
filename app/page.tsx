@@ -1,9 +1,12 @@
 import Dashboard from '@/components/Dashboard';
+import Header from '@/components/Header';
 import Playground from '@/components/Playground';
 
 export default function Home() {
+
   return (
     <main className="flex min-h-screen flex-col items-center p-12 font-primary">
+      <Header />
       <h1 className="text-7xl mb-24 font-secondary">Based Place</h1>
       <p className="w-full flex flex-col text-center text-xl mb-24">
         <span>
