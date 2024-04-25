@@ -8,7 +8,7 @@ export default function Home() {
     <>
       <Header />
       <main className="flex min-h-screen flex-col items-center px-6 font-primary">
-        <h1 className="text-7xl mt-12 mb-24 font-secondary">Based Place</h1>
+        <h1 className="text-7xl text-center mt-12 mb-24 font-secondary">Based Place</h1>
         <p className="w-full flex flex-col text-center text-xl mb-24">
           <span>
             There is a based canvas.
