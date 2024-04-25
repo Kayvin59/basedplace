@@ -59,7 +59,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${abril_fatface.variable} ${merriweather.variable}`}>
+      <body className={`${abril_fatface.variable} ${merriweather.variable} relative`}>
         <WagmiProvider config={wagmiConfig}>
           <QueryClientProvider client={queryClient}>
             {children}

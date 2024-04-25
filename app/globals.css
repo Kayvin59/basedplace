@@ -4,7 +4,7 @@
 
   @layer base {
     :root {
-      --background: 196.1 67.2% 64.1%;
+      --background: 203 84% 95%;
       --foreground: 234, 38%, 21%;
 
       --card: 0 0% 100%;
@@ -62,7 +62,7 @@
     }
 
     .dark {
-      --background: 222.2 84% 4.9%;
+      --background: 203 84% 95%;
       --foreground: 210 40% 98%;
 
       --card: 222.2 84% 4.9%;
@@ -95,9 +95,9 @@
       --amber: 40, 100%, 50%;
       --yellow: 48, 100%, 60%;
       --green: 158, 100%, 32%;
+      --sky-blue: 184, 100%, 33%;
       --light-green: 104, 81%, 63%;
       --deep-aqua: 177, 100%, 23%;
-      --sky-blue: 184, 100%, 33%;
       --indigo: 219, 64%, 39%;
       --cerulean: 210, 81%, 56%;
       --egg-blue: 184, 88%, 64%;
