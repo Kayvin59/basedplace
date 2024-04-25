@@ -124,3 +124,9 @@
       @apply bg-background text-foreground text-lg;
     }
   }
+
+  @layer utilities {
+    .bg-overlay {
+      background-color: rgb(0, 0, 0, 0.8);
+    }
+  }

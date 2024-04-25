@@ -42,7 +42,9 @@ export default function Header() {
                 </DropdownMenu>
             </div>
             <div>
-                <Button onClick={handleOpenModal} className='ml-auto font-primary font-bold text-l text-white'>Connect</Button>
+                <Button onClick={handleOpenModal} className='ml-auto font-primary font-bold text-l text-white'>
+                    {isConnected ? address : 'Connect'}
+                </Button>
             </div>
         </header>
     );
