@@ -6,6 +6,7 @@ import { useAccount } from 'wagmi';
 
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Power } from 'lucide-react';
 import logo from '../public/BPL-logo.svg';
 
 export default function Header() {
@@ -14,6 +15,13 @@ export default function Header() {
 
     const handleOpenModal = () => {
         open();
+    };
+
+    const getEllipsisAddress = (str: string | undefined, n = 5) => {
+        if (str) {
+          return `${str.slice(0, n)}...${str.slice(str.length - n)}`;
+        }
+        return "";
     };
 
     return (
@@ -43,7 +51,10 @@ export default function Header() {
             </div>
             <div>
                 <Button onClick={handleOpenModal} className='ml-auto font-primary font-bold text-l text-white'>
-                    {isConnected ? address : 'Connect'}
+                    {isConnected ? getEllipsisAddress(address) : 'Connect'}
+                    <span className='ml-2'>
+                        <Power size={16} />
+                    </span>
                 </Button>
             </div>
         </header>
