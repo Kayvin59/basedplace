@@ -4,7 +4,7 @@ import baseWordmark from '../public/wordmark.svg'
 
 export default function Hero() {
     return (
-    <div className='w-full flex mb-10'>
+    <>
         <div className="w-1/2 p-12 border-b-2 rounded-lg bg-background">
             <h1 className="text-6xl text-left mb-12 font-secondary">Based Place</h1>
             <p className="flex flex-col text-left text-xl mb-12">
@@ -31,7 +31,7 @@ export default function Hero() {
         <div className="w-1/2">
             <Image src={heroImg} alt="hero-image" className="w-full" width={500} height={500} />
         </div>
-      </div>
+      </>
     )
 
 }
