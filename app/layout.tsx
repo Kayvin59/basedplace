@@ -18,7 +18,8 @@ import { coinbaseWallet, walletConnect } from "wagmi/connectors";
 const queryClient = new QueryClient();
 
 // PorjectId for walletConnect
-const projectId = "pef79ef097c95d5bc12795f4cdbdac77f"
+const projectId = process.env.NEXT_PUBLIC_PROJECT_ID
+console.log('projectId', projectId)
 
 const Web3ModalData = {
     name: 'Web3Modal',
@@ -33,7 +34,7 @@ export const wagmiConfig = createConfig({
   connectors: [
     walletConnect({ projectId, Web3ModalData, showQrModal: false } as any),
     coinbaseWallet({
-      appName: 'My Wagmi App',
+      appName: 'Based Place',
     }),
   ],
   transports: {
@@ -43,7 +44,7 @@ export const wagmiConfig = createConfig({
 
 createWeb3Modal({
   wagmiConfig,
-  projectId: projectId,
+  projectId: projectId || "",
 })
 
 /* 
