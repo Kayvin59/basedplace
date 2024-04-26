@@ -55,27 +55,25 @@ export default function Playground() {
   };
 
   return (
-    <div>
-      <div className={`mt-5 mx-auto bg-gray-200 w-40 h-40`}>
-        <div className="grid grid-cols-10 grid-rows-10 gap-x-0 gap-y-0">
-        {squareColors.map((color, index) => (
-          <Drawer key={index} open={openDrawer && selectedIndex === index} onOpenChange={setOpenDrawer}>
-            <DrawerTrigger>
-              <div
-                className="w-4 h-4 cursor-pointer hover:border border-foreground"
-                style={{ backgroundColor: color }}
-                onClick={() => handleSquareClick(index)}
-              ></div>
-            </DrawerTrigger>
-            <DrawerContent>
-              {openDrawer && selectedIndex === index && (
-                <ColorPicker colors={colors} onColorClick={handleColorClick} onConfirm={handleConfirm}/>
-              )}
-            </DrawerContent>
-          </Drawer>
+      <div className="my-12 mx-auto w-40 h-40">
+        <div className="grid grid-cols-10 grid-rows-10 gap-x-0 gap-y-0 border border-foreground">
+          {squareColors.map((color, index) => (
+            <Drawer key={index} open={openDrawer && selectedIndex === index} onOpenChange={setOpenDrawer}>
+              <DrawerTrigger>
+                <div
+                  className="w-4 h-4 cursor-pointer hover:border border-foreground"
+                  style={{ backgroundColor: color }}
+                  onClick={() => handleSquareClick(index)}
+                ></div>
+              </DrawerTrigger>
+              <DrawerContent>
+                {openDrawer && selectedIndex === index && (
+                  <ColorPicker colors={colors} onColorClick={handleColorClick} onConfirm={handleConfirm}/>
+                )}
+              </DrawerContent>
+            </Drawer>
           ))}
         </div>
       </div>      
-    </div>
   );
 }
