@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Power } from 'lucide-react';
 import logo from '../public/BPL-logo.svg';
+import userLogo from '../public/user.svg';
 
 export default function Header() {
     const { open } = useWeb3Modal();
@@ -32,7 +33,9 @@ export default function Header() {
             <div className='ml-auto mr-8'>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="outline" className='border border-foreground focus-visible:ring-offset-0 focus-visible:ring-transparent'>Menu</Button>
+                        <Button variant="outline" className='border border-foreground focus-visible:ring-offset-0 focus-visible:ring-transparent'>
+                            <Image src={userLogo} alt="user logo" />
+                        </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="w-40">
                         <DropdownMenuLabel>My Account</DropdownMenuLabel>
@@ -51,10 +54,14 @@ export default function Header() {
             </div>
             <div>
                 <Button onClick={handleOpenModal} className='ml-auto font-primary font-bold text-l text-white'>
-                    {isConnected ? getEllipsisAddress(address) : 'Connect'}
-                    <span className='ml-2'>
-                        <Power size={16} />
-                    </span>
+                    {isConnected ? (
+                        <>
+                            <span>{getEllipsisAddress(address)}</span>
+                            <span className='ml-2'>
+                                <Power size={16} />
+                            </span>
+                        </>
+                    ) : ('Connect Wallet')}
                 </Button>
             </div>
         </header>
