@@ -12,7 +12,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <main className="flex max-w-6xl mx-auto min-h-screen flex-col items-center py-24 px-6 font-primary">
+      <main className="flex max-w-6xl mx-auto min-h-screen flex-col items-center py-16 px-6 font-primary">
           <section className='w-full flex mb-16'>
             <Hero />
           </section>
@@ -32,8 +32,8 @@ export default function Home() {
             </div>
             <ProfileCard />
           </section>
-          <section id='dashboard' className="w-full mb-16">
-            <h2 className='p-6 text-2xl font-secondary border-b'>Dashboard</h2>
+          <section id='dashboard' className="w-full mb-16 border rounded-lg bg-background">
+            <h2 className='p-6 text-2xl font-secondary'>Dashboard</h2>
             <Dashboard />
           </section>
       </main>

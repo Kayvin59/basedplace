@@ -1,12 +1,11 @@
 import {
-    Table,
-    TableBody,
-    TableCaption,
-    TableCell,
-    TableFooter,
-    TableHead,
-    TableHeader,
-    TableRow,
+  Table,
+  TableBody,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow
 } from "@/components/ui/table"
 
 const rewards = [
@@ -44,20 +43,19 @@ const rewards = [
 
 export default function Dashboard() {
     return (
-        <Table className="border-2 border-foreground">
-            <TableCaption>Points program</TableCaption>
-            <TableHeader>
-            <TableRow className="border-foreground">
-                <TableHead className="w-[100px] text-foreground font-bold border-foreground">Address</TableHead>
-                <TableHead className="text-foreground font-bold">Rank</TableHead>
-                <TableHead className="text-foreground font-bold">Boost</TableHead>
-                <TableHead className="text-right text-foreground font-bold">Points</TableHead>
-            </TableRow>
+        <Table className="border-none">
+            <TableHeader className="mx-6">
+              <TableRow className="border bg-white hover:bg-white">
+                  <TableHead className="w-[100px] text-foreground font-bold border-foreground">Address</TableHead>
+                  <TableHead className="text-foreground font-bold">Rank</TableHead>
+                  <TableHead className="text-foreground font-bold">Boost</TableHead>
+                  <TableHead className="text-right text-foreground font-bold">Points</TableHead>
+              </TableRow>
             </TableHeader>
             <TableBody>
             {rewards.map((item) => (
-                <TableRow key={item.address} className="border-foreground">
-                    <TableCell className="font-medium">{item.address}</TableCell>
+                <TableRow key={item.address} className="border hover:bg-white">
+                    <TableCell className="p-6 font-medium">{item.address}</TableCell>
                     <TableCell>{item.rank}</TableCell>
                     <TableCell>{item.boost}</TableCell>
                     <TableCell className="text-right">{item.points}</TableCell>
