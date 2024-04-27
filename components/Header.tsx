@@ -26,7 +26,7 @@ export default function Header() {
     };
 
     return (
-        <header className='w-full flex justify-between items-center sticky top-0 z-50 px-3 h-16 bg-white opacity-90 border-b'>
+        <header className='w-full flex justify-between items-center sticky top-0 z-50 p-3 min-h-16 bg-white opacity-90 border-b border-foreground'>
             <span className='w-14 inline-block cursor-pointer'>
                 <Image src={logo} alt="Based Place Logo" />
             </span>
