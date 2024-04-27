@@ -26,7 +26,7 @@ export default function Header() {
     };
 
     return (
-        <header className='w-full flex justify-between items-center sticky top-0 z-50 p-3 min-h-16 bg-white opacity-90 border-b border-foreground'>
+        <header className='max-w-6xl mx-auto flex justify-between items-center sticky top-0 z-50 py-3 min-h-16 bg-white opacity-90'>
             <span className='w-14 inline-block cursor-pointer'>
                 <Image src={logo} alt="Based Place Logo" />
             </span>
@@ -64,6 +64,7 @@ export default function Header() {
                     ) : ('Connect Wallet')}
                 </Button>
             </div>
+            <span className='separator w-screen absolute h-px -bottom-px bg-border left-1/2 -translate-x-1/2'></span>
         </header>
     );
 }
