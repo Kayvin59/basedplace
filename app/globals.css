@@ -2,10 +2,34 @@
   @tailwind components;
   @tailwind utilities;
 
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #e8f5fd;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #0f172a;
+}
+
   @layer base {
     :root {
       --background: 203 84% 95%;
       --foreground: 234, 38%, 21%;
+
+      --footer: 221, 100%, 68%;
 
       --card: 0 0% 100%;
       --card-foreground: 222.2 84% 4.9%;

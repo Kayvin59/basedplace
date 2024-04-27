@@ -30,6 +30,7 @@ const config = {
         ring: "hsl(var(--ring))",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
+        footer: "hsl(var(--footer))",
 
         // Map colors 
         crimson: "hsl(var(--crimson))",
@@ -106,6 +107,9 @@ const config = {
       },
       spacing: {
         '250': '250px',
+      },
+      width: {
+        'separator': 'calc(100vw - 5px) !important',
       }
     },
   },
