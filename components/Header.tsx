@@ -7,7 +7,9 @@ import { useAccount } from 'wagmi';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Power } from 'lucide-react';
+import Link from 'next/link';
 import logo from '../public/BPL-logo.svg';
+import twitterLogo from '../public/twitter.svg';
 import userLogo from '../public/user.svg';
 
 export default function Header() {
@@ -30,7 +32,10 @@ export default function Header() {
             <span className='w-14 inline-block cursor-pointer'>
                 <Image src={logo} alt="Based Place Logo" />
             </span>
-            <div className='ml-auto mr-8'>
+            <Link href='https://twitter.com/BasedPlace_' className='ml-auto mr-8'>
+                <Image src={twitterLogo} alt="Twitter Logo" className='hover:text-border'/>
+            </Link>
+            <div className='mr-8'>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className='border border-foreground focus-visible:ring-offset-0 focus-visible:ring-transparent'>
@@ -64,7 +69,7 @@ export default function Header() {
                     ) : ('Connect Wallet')}
                 </Button>
             </div>
-            <span className='separator w-screen absolute h-px -bottom-px bg-border left-1/2 -translate-x-1/2'></span>
+            <span className='separator w-separator absolute h-px -bottom-px bg-border left-1/2 -translate-x-1/2'></span>
         </header>
     );
 }
