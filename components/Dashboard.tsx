@@ -45,28 +45,28 @@ export default function Dashboard() {
     return (
         <Table className="border-none">
             <TableHeader className="mx-6">
-              <TableRow className="border bg-white hover:bg-white">
-                  <TableHead className="w-[100px] text-foreground font-bold border-foreground">Address</TableHead>
+              <TableRow className="border-y bg-white hover:bg-white">
+                  <TableHead className="w-[100px] px-6 text-foreground font-bold border-foreground">Address</TableHead>
                   <TableHead className="text-foreground font-bold">Rank</TableHead>
                   <TableHead className="text-foreground font-bold">Boost</TableHead>
-                  <TableHead className="text-right text-foreground font-bold">Points</TableHead>
+                  <TableHead className="text-right text-foreground font-bold px-6">Points</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
             {rewards.map((item) => (
-                <TableRow key={item.address} className="border hover:bg-white">
+                <TableRow key={item.address} className="border-y hover:bg-white">
                     <TableCell className="p-6 font-medium">{item.address}</TableCell>
                     <TableCell>{item.rank}</TableCell>
                     <TableCell>{item.boost}</TableCell>
-                    <TableCell className="text-right">{item.points}</TableCell>
+                    <TableCell className="p-6 text-right">{item.points}</TableCell>
                 </TableRow>
             ))}
             </TableBody>
             <TableFooter>
-            <TableRow>
-                <TableCell colSpan={3}>Total</TableCell>
-                <TableCell className="text-right">5350</TableCell>
-            </TableRow>
+              <TableRow>
+                  <TableCell className="px-6 py-4 " colSpan={3}>Total</TableCell>
+                  <TableCell className="p-6 text-right">5350</TableCell>
+              </TableRow>
             </TableFooter>
         </Table>
     )
