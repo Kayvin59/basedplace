@@ -43,7 +43,7 @@ const rewards = [
 
 export default function Dashboard() {
     return (
-        <Table className="border-none">
+        <Table className="border-none text-base">
             <TableHeader className="mx-6">
               <TableRow className="border-y bg-white hover:bg-white">
                   <TableHead className="w-[100px] px-6 text-foreground font-bold border-foreground">Address</TableHead>

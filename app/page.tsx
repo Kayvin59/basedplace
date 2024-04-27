@@ -1,4 +1,5 @@
 import Dashboard from '@/components/Dashboard';
+import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import Playground from '@/components/Playground';
@@ -12,7 +13,7 @@ export default function Home() {
   return (
     <>
       <Header />
-      <main className="flex max-w-6xl mx-auto min-h-screen flex-col items-center py-16 px-6 font-primary">
+      <main className="flex max-w-6xl mx-auto min-h-screen flex-col items-center py-16 font-primary">
           <section className='w-full flex mb-16'>
             <Hero />
           </section>
@@ -37,6 +38,7 @@ export default function Home() {
             <Dashboard />
           </section>
       </main>
+      <Footer />
     </>
   );
 }
