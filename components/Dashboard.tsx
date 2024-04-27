@@ -45,7 +45,7 @@ export default function Dashboard() {
     return (
         <Table className="border-none text-base">
             <TableHeader className="mx-6">
-              <TableRow className="border-y bg-white hover:bg-white">
+              <TableRow className="border-y bg-white">
                   <TableHead className="w-[100px] px-6 text-foreground font-bold border-foreground">Address</TableHead>
                   <TableHead className="text-foreground font-bold">Rank</TableHead>
                   <TableHead className="text-foreground font-bold">Boost</TableHead>
@@ -54,7 +54,7 @@ export default function Dashboard() {
             </TableHeader>
             <TableBody>
             {rewards.map((item) => (
-                <TableRow key={item.address} className="border-y hover:bg-white">
+                <TableRow key={item.address} className="border-y hover:bg-footer">
                     <TableCell className="p-6 font-medium">{item.address}</TableCell>
                     <TableCell>{item.rank}</TableCell>
                     <TableCell>{item.boost}</TableCell>
