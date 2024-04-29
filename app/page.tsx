@@ -12,6 +12,7 @@ import externalLink from '../public/external-link.svg';
 export default function Home() {
 
   return (
+
     <>
       <Header />
       <main className="flex max-w-6xl mx-auto min-h-screen flex-col items-center py-16 font-primary">
