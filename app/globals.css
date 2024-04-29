@@ -145,7 +145,7 @@
       @apply border-border;
     }
     body {
-      @apply bg-white text-foreground text-lg;
+      @apply bg-background text-foreground text-lg;
     }
   }
 

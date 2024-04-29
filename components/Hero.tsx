@@ -5,7 +5,7 @@ import baseWordmark from '../public/wordmark.svg'
 export default function Hero() {
     return (
     <>
-        <div className="flex flex-col w-1/2 p-12 border-b-2 rounded-lg bg-background">
+        <div className="flex flex-col w-1/2 p-12 border-b-2 rounded-lg bg-white">
             <h1 className="text-6xl text-left mb-12 font-secondary">Based Place</h1>
             <p className="flex flex-col text-left text-xl mb-12">
                 <span className="mb-1">

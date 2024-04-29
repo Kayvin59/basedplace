@@ -28,7 +28,7 @@ export default function Header() {
     };
 
     return (
-        <header className='max-w-6xl mx-auto flex justify-between items-center sticky top-0 z-50 py-3 min-h-16 bg-white opacity-90'>
+        <header className='max-w-6xl mx-auto flex justify-between items-center sticky top-0 z-50 py-3 min-h-16 bg-background opacity-90'>
             <span className='w-14 inline-block cursor-pointer'>
                 <Image src={logo} alt="Based Place Logo" />
             </span>

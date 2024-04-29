@@ -17,11 +17,11 @@ export default function Home() {
           <section className='w-full flex mb-16'>
             <Hero />
           </section>
-          <section id="playground" className="w-full mb-16 border rounded-lg bg-background">
+          <section id="playground" className="w-full mb-16 border rounded-lg bg-white">
             <h2 className='p-6 text-2xl font-secondary border-b'>Playground</h2>
             <Playground />
           </section>
-          <section id="profile" className="w-full mb-16 border rounded-lg bg-background">
+          <section id="profile" className="w-full mb-16 border rounded-lg bg-white">
             <div className='flex justify-between items-center p-6 border-b'>
               <h2 className='text-2xl font-secondary'>My stats</h2>
               <Link href="/profile" className='flex pointer-events-none hover:underline'>
@@ -33,7 +33,7 @@ export default function Home() {
             </div>
             <ProfileCard />
           </section>
-          <section id='dashboard' className="w-full mb-16 border rounded-lg bg-background">
+          <section id='dashboard' className="w-full mb-16 border rounded-lg bg-white">
             <h2 className='p-6 text-2xl font-secondary'>Dashboard</h2>
             <Dashboard />
           </section>
