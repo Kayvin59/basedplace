@@ -29,7 +29,8 @@
       --background: 220 100% 97%;
       --foreground: 234, 38%, 21%;
 
-      --footer: 221, 100%, 68%;
+      //--footer: 221, 100%, 68%;
+      --footer: 220.7, 100%, 50%;
 
       --card: 0 0% 100%;
       --card-foreground: 222.2 84% 4.9%;

@@ -1,3 +1,4 @@
+import ActionPanel from '@/components/ActionPanel';
 import Dashboard from '@/components/Dashboard';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
@@ -17,6 +18,7 @@ export default function Home() {
           <section className='w-full flex mb-16'>
             <Hero />
           </section>
+          <ActionPanel />
           <section id="playground" className="w-full mb-16 border rounded-lg bg-white">
             <h2 className='p-6 text-2xl font-secondary border-b'>Playground</h2>
             <Playground />
