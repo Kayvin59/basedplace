@@ -15,8 +15,9 @@ export default function ColorPicker({ colors, onColorClick, onConfirm }: ColorPi
   const [showError, setShowError] = useState(false);
 
   const handleColorClick = (color: string) => {
-    setSelectedColor(color);
-    onColorClick(color);
+    setSelectedColor(color)
+    onColorClick(color)
+    setShowError(false)
   }
 
   const handleConfirm = () => {
@@ -24,7 +25,7 @@ export default function ColorPicker({ colors, onColorClick, onConfirm }: ColorPi
       setShowError(true);
       return;
     }
-    onConfirm();
+    onConfirm()
     setSelectedColor(null)
   }
   
@@ -35,7 +36,7 @@ export default function ColorPicker({ colors, onColorClick, onConfirm }: ColorPi
             {colors.map((color, index) => (
               <div
                 key={index}
-                className={`w-5 h-5 m-1 cursor-pointer rounded-full last:border hover:rounded-none border-foreground ${selectedColor === color ? 'border-2 border-green-500' : ''}`} // "w-5 h-5 m-1 cursor-pointer last:border hover:border border-foreground"
+                className={`w-5 h-5 m-1 cursor-pointer rounded-full last:border hover:rounded-none border-foreground ${selectedColor === color ? 'border-2 border-green-500 rounded-none' : ''}`}
                 style={{ 
                   backgroundColor: color,
                 }}

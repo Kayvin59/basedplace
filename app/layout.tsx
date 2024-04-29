@@ -1,13 +1,33 @@
-import type { Metadata } from "next";
+"use client"
+
+// import type { Metadata } from "next";
+
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { createWeb3Modal } from '@web3modal/wagmi/react';
+import { WagmiProvider } from "wagmi";
+
+import { wagmiConfig } from "@/config";
 import { abril_fatface, merriweather } from './font';
 import "./globals.css";
 
+const projectId = process.env.NEXT_PUBLIC_PROJECT_ID
 
-
-export const metadata: Metadata = {
+/* export const metadata: Metadata = {
   title: "Based Place",
   description: "Community experiment",
-};
+}; */
+
+// Setup Query Client
+const queryClient = new QueryClient();
+
+
+// COLOR : #0052FF
+
+createWeb3Modal({
+  wagmiConfig,
+  projectId: projectId || "",
+})
+
 
 export default function RootLayout({
   children,
@@ -16,7 +36,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${abril_fatface.variable} ${merriweather.variable}`}>{children}</body>
+      <body className={`${abril_fatface.variable} ${merriweather.variable} relative`}>
+        <WagmiProvider config={wagmiConfig}>
+          <QueryClientProvider client={queryClient}>
+            {children}
+          </QueryClientProvider>
+        </WagmiProvider>
+      </body>
     </html>
   );
 }

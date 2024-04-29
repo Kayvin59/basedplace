@@ -2,10 +2,35 @@
   @tailwind components;
   @tailwind utilities;
 
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #e8f5fd;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #0f172a;
+}
+
   @layer base {
     :root {
-      --background: 196.1 67.2% 64.1%;
+      --background: 220 100% 97%;
       --foreground: 234, 38%, 21%;
+
+      //--footer: 221, 100%, 68%;
+      --footer: 220.7, 100%, 50%;
 
       --card: 0 0% 100%;
       --card-foreground: 222.2 84% 4.9%;
@@ -62,7 +87,7 @@
     }
 
     .dark {
-      --background: 222.2 84% 4.9%;
+      --background: 203 84% 95%;
       --foreground: 210 40% 98%;
 
       --card: 222.2 84% 4.9%;
@@ -95,9 +120,9 @@
       --amber: 40, 100%, 50%;
       --yellow: 48, 100%, 60%;
       --green: 158, 100%, 32%;
+      --sky-blue: 184, 100%, 33%;
       --light-green: 104, 81%, 63%;
       --deep-aqua: 177, 100%, 23%;
-      --sky-blue: 184, 100%, 33%;
       --indigo: 219, 64%, 39%;
       --cerulean: 210, 81%, 56%;
       --egg-blue: 184, 88%, 64%;
@@ -122,5 +147,11 @@
     }
     body {
       @apply bg-background text-foreground text-lg;
+    }
+  }
+
+  @layer utilities {
+    .bg-overlay {
+      background-color: rgb(0, 0, 0, 0.8);
     }
   }

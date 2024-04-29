@@ -34,7 +34,7 @@ const initialColor = "#FFFFFF";
 
 export default function Playground() {
   const [selectedColor, setSelectedColor] = useState(initialColor);
-  const [squareColors, setSquareColors] = useState(Array(25).fill(initialColor));
+  const [squareColors, setSquareColors] = useState(Array(100).fill(initialColor));
   const [selectedIndex, setSelectedIndex] = useState(-1)
   const [openDrawer, setOpenDrawer] = useState(false);
 
@@ -44,6 +44,7 @@ export default function Playground() {
 
   const handleSquareClick = (index: number) => {
     setSelectedIndex(index);
+    setOpenDrawer(true);
   };
   
   const handleConfirm = () => {
@@ -54,25 +55,25 @@ export default function Playground() {
   };
 
   return (
-    <div>
-      <div className={`mt-5 bg-gray-200 w-20 h-20`}>
-        <div className="grid grid-cols-5 grid-rows-5 gap-x-0 gap-y-0">
-        {squareColors.map((color, index) => (
-          <Drawer key={index} open={openDrawer} onOpenChange={setOpenDrawer}>
-            <DrawerTrigger>
-              <div
-                className="w-4 h-4 cursor-pointer hover:border border-foreground"
-                style={{ backgroundColor: color }}
-                onClick={() => handleSquareClick(index)}
-              ></div>
-            </DrawerTrigger>
-            <DrawerContent>
-              <ColorPicker colors={colors} onColorClick={handleColorClick} onConfirm={handleConfirm}/>
-            </DrawerContent>
-          </Drawer>
+      <div className="my-12 mx-auto w-40 h-40">
+        <div className="grid grid-cols-10 grid-rows-10 gap-x-0 gap-y-0 border border-foreground">
+          {squareColors.map((color, index) => (
+            <Drawer key={index} open={openDrawer && selectedIndex === index} onOpenChange={setOpenDrawer}>
+              <DrawerTrigger>
+                <div
+                  className="w-4 h-4 cursor-pointer hover:border border-foreground"
+                  style={{ backgroundColor: color }}
+                  onClick={() => handleSquareClick(index)}
+                ></div>
+              </DrawerTrigger>
+              <DrawerContent>
+                {openDrawer && selectedIndex === index && (
+                  <ColorPicker colors={colors} onColorClick={handleColorClick} onConfirm={handleConfirm}/>
+                )}
+              </DrawerContent>
+            </Drawer>
           ))}
         </div>
       </div>      
-    </div>
   );
 }
