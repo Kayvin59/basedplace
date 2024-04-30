@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Power } from 'lucide-react';
 import Link from 'next/link';
-import logo from '../public/logo.svg';
+import logo from '../public/logo.png';
 import mirrorLogo from '../public/mirror.svg';
 import twitterLogo from '../public/twitter.svg';
 import userLogo from '../public/user.svg';
@@ -34,10 +34,10 @@ export default function Header() {
                 <Image src={logo} alt="Based Place Logo" />
             </span>
             <Link href='https://mirror.xyz/0x1F58a081369967B2B4c4E2Ad0C44aF016132ef13' className='ml-auto mr-8'>
-                <Image src={mirrorLogo} alt="Mirror Logo" className='hover:text-border'/>
+                <Image src={mirrorLogo} alt="Mirror Logo" className='text-footer hover:text-foreground'/>
             </Link>
             <Link href='https://twitter.com/BasedPlace_' className='mr-8'>
-                <Image src={twitterLogo} alt="Twitter Logo" className='hover:text-border'/>
+                <Image src={twitterLogo} alt="Twitter Logo" className='text-footer hover:text-foreground'/>
             </Link>
             <div className='mr-8'>
                 <DropdownMenu>
@@ -62,7 +62,7 @@ export default function Header() {
                 </DropdownMenu>
             </div>
             <div>
-                <Button onClick={handleOpenModal} className='ml-auto font-primary font-bold text-l text-white'>
+                <Button onClick={handleOpenModal} className='ml-auto font-primary font-bold text-l text-white bg-footer hover:bg-foreground'>
                     {isConnected ? (
                         <>
                             <span>{getEllipsisAddress(address)}</span>

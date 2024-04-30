@@ -54,7 +54,7 @@ export default function Dashboard() {
             </TableHeader>
             <TableBody>
             {rewards.map((item) => (
-                <TableRow key={item.address} className="border-y hover:bg-footer">
+                <TableRow key={item.address} className="border-y hover:bg-footer hover:text-white">
                     <TableCell className="p-6 font-medium">{item.address}</TableCell>
                     <TableCell>{item.rank}</TableCell>
                     <TableCell>{item.boost}</TableCell>

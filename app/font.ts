@@ -1,4 +1,4 @@
-import { Abril_Fatface, Anonymous_Pro, Merriweather } from 'next/font/google';
+import { Abril_Fatface, Lexend, Merriweather } from 'next/font/google';
 
 export const abril_fatface = Abril_Fatface({
     subsets: ['latin'],
@@ -7,7 +7,7 @@ export const abril_fatface = Abril_Fatface({
     variable: '--font-abril-fatface'
 })
   
-export const anonymous_pro = Anonymous_Pro({
+export const lexend = Lexend({
     subsets: ['latin'],
     display: 'swap',
     weight: '400',
