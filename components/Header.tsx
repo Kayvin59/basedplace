@@ -9,6 +9,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem,
 import { Power } from 'lucide-react';
 import Link from 'next/link';
 import logo from '../public/logo.svg';
+import mirrorLogo from '../public/mirror.svg';
 import twitterLogo from '../public/twitter.svg';
 import userLogo from '../public/user.svg';
 
@@ -32,7 +33,10 @@ export default function Header() {
             <span className='w-14 inline-block cursor-pointer'>
                 <Image src={logo} alt="Based Place Logo" />
             </span>
-            <Link href='https://twitter.com/BasedPlace_' className='ml-auto mr-8'>
+            <Link href='https://mirror.xyz/0x1F58a081369967B2B4c4E2Ad0C44aF016132ef13' className='ml-auto mr-8'>
+                <Image src={mirrorLogo} alt="Mirror Logo" className='hover:text-border'/>
+            </Link>
+            <Link href='https://twitter.com/BasedPlace_' className='mr-8'>
                 <Image src={twitterLogo} alt="Twitter Logo" className='hover:text-border'/>
             </Link>
             <div className='mr-8'>
