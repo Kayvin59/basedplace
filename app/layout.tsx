@@ -1,8 +1,8 @@
 "use client"
 
 // import type { Metadata } from "next";
-
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Analytics } from "@vercel/analytics/react";
 import { createWeb3Modal } from '@web3modal/wagmi/react';
 import { WagmiProvider } from "wagmi";
 
@@ -40,6 +40,7 @@ export default function RootLayout({
         <WagmiProvider config={wagmiConfig}>
           <QueryClientProvider client={queryClient}>
             {children}
+            <Analytics />
           </QueryClientProvider>
         </WagmiProvider>
       </body>
