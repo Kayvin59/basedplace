@@ -53,9 +53,7 @@ export default function Playground() {
   };
 
   return (
-    <div className="w-2/3 h-60 my-12 mx-auto border border-foreground hover:cursor-not-allowed bg-white">
-
-    </div>
+    <div className="w-2/3 h-60 my-12 mx-auto border border-foreground hover:cursor-not-allowed bg-white"></div>
   );
 }
 
