@@ -21,7 +21,7 @@ const config = {
     },
     extend: {
       fontFamily: {
-        primary: ["var(--font-merriweather)"],
+        primary: ["var(--font-lexend)"],
         secondary: ["var(--font-abril-fatface)"],
       },
       colors: {
