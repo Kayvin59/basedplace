@@ -1,5 +1,5 @@
 import Image from "next/image"
-import heroImg from '../public/hero.svg'
+import heroImg from '../public/heroImg.svg'
 import baseWordmark from '../public/wordmark.svg'
 
 export default function Hero() {
@@ -7,17 +7,17 @@ export default function Hero() {
     <>
         <div className="flex flex-col w-1/2 p-12 border-b-2 rounded-lg bg-white">
             <h1 className="text-6xl text-left mb-12 font-secondary">Based Place</h1>
-            <p className="flex flex-col text-left text-xl mb-12">
-                <span className="mb-1">
+            <p className="flex flex-col text-left text-2xl mb-12">
+                <span className="mb-2">
                     There is a based canvas.
                 </span>
-                <span className="mb-1">
+                <span className="mb-2">
                     Connect your wallet and play
                 </span>
-                <span className="mb-1">
+                <span className="mb-2">
                     Individually you earn something.
                 </span>
-                <span className="mb-1">
+                <span className="mb-2">
                     Together you earn more.
                 </span>
             </p>
@@ -28,7 +28,7 @@ export default function Hero() {
                 </span>
             </p>
         </div>
-        <div className="w-1/2">
+        <div className="w-1/2 p-6">
             <Image src={heroImg} alt="hero-image" className="w-full" width={500} height={500} />
         </div>
       </>
