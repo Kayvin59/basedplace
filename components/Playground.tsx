@@ -1,7 +1,5 @@
 "use client"
 
-import ColorPicker from "@/components/ColorPicker";
-import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import { useState } from "react";
 
 const colors = [
@@ -55,7 +53,13 @@ export default function Playground() {
   };
 
   return (
-      <div className="my-12 mx-auto w-40 h-40">
+    <div className="w-2/3 h-60 my-12 mx-auto border border-foreground hover:cursor-not-allowed bg-white">
+
+    </div>
+  );
+}
+
+      {/* <div className="my-12 mx-auto w-40 h-40">
         <div className="grid grid-cols-10 grid-rows-10 gap-x-0 gap-y-0 border border-foreground">
           {squareColors.map((color, index) => (
             <Drawer key={index} open={openDrawer && selectedIndex === index} onOpenChange={setOpenDrawer}>
@@ -74,6 +78,4 @@ export default function Playground() {
             </Drawer>
           ))}
         </div>
-      </div>      
-  );
-}
+      </div>    */}
