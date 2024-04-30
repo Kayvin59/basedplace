@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Power } from 'lucide-react';
 import Link from 'next/link';
-import logo from '../public/logo.svg';
+import logo from '../public/logo.png';
 import mirrorLogo from '../public/mirror.svg';
 import twitterLogo from '../public/twitter.svg';
 import userLogo from '../public/user.svg';
