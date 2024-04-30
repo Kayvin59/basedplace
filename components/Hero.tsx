@@ -5,8 +5,8 @@ import baseWordmark from '../public/wordmark.svg'
 export default function Hero() {
     return (
     <>
-        <div className="flex flex-col w-1/2 p-12 border-b-2 rounded-lg bg-white">
-            <h1 className="text-6xl text-left mb-12 font-secondary">Based Place</h1>
+        <div className="flex flex-col order-2 lg:order-none w-11/12 sm:w-3/4 lg:w-1/2 p-8 lg:p-12 border-b-2 rounded-lg bg-white">
+            <h1 className="text-5xl lg:text-6xl text-left mb-12 self-center font-secondary">Based Place</h1>
             <p className="flex flex-col text-left text-2xl mb-12">
                 <span className="mb-2">
                     There is a based canvas.
@@ -28,7 +28,7 @@ export default function Hero() {
                 </span>
             </p>
         </div>
-        <div className="w-1/2 p-6">
+        <div className="w-11/12 sm:w-8/12 lg:w-1/2 order-1 lg:order-none self-center mb-6 sm:mb-12 p-6">
             <Image src={heroImg} alt="hero-image" className="w-full" width={500} height={500} />
         </div>
       </>

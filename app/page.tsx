@@ -16,7 +16,7 @@ export default function Home() {
     <>
       <Header />
       <main className="flex max-w-6xl mx-auto min-h-screen flex-col items-center py-16 font-primary">
-          <section className='w-full flex mb-16'>
+          <section className='w-full flex flex-col lg:flex-row items-center mb-16'>
             <Hero />
           </section>
           <ActionPanel />
