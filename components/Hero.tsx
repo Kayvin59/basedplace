@@ -29,7 +29,7 @@ export default function Hero() {
             </p>
         </div>
         <div className="w-11/12 sm:w-8/12 lg:w-1/2 order-1 lg:order-none self-center mb-6 sm:mb-12 p-6">
-            <Image src={heroImg} alt="hero-image" className="w-full" width={500} height={500} />
+            <Image src={heroImg} alt="hero-image" priority className="w-full" width={500} height={500} />
         </div>
       </>
     )

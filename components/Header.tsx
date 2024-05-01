@@ -50,8 +50,12 @@ export default function Header() {
                         <DropdownMenuLabel>My Account</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
-                            <DropdownMenuItem>Playground</DropdownMenuItem>
-                            <DropdownMenuItem>Dashboard</DropdownMenuItem>
+                            <DropdownMenuItem>
+                                <Link href="/#playground">Playground</Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>
+                                <Link href="/#dashboard">Dashboard</Link>
+                            </DropdownMenuItem>
                             <DropdownMenuItem>Profile</DropdownMenuItem>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />

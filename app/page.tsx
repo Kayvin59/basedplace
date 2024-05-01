@@ -46,4 +46,3 @@ export default function Home() {
   );
 }
 
-// Add priority hero image next js
