@@ -31,13 +31,15 @@ export default function Header() {
     return (
         <header className='max-w-6xl mx-auto flex justify-between items-center sticky top-0 z-50 p-3 min-h-16 bg-background opacity-90 lg:py-3'>
             <span className='w-14 inline-block cursor-pointer'>
-                <Image src={logo} alt="Based Place Logo" />
+                <Link href="/">
+                    <Image src={logo} alt="Based Place Logo" />
+                </Link>
             </span>
             <Link href='https://mirror.xyz/0x1F58a081369967B2B4c4E2Ad0C44aF016132ef13' className='hidden sm:block ml-auto mr-4 sm:mr-8'>
-                <Image src={mirrorLogo} alt="Mirror Logo" className='text-footer hover:text-foreground'/>
+                <Image src={mirrorLogo} alt="Mirror Logo" />
             </Link>
             <Link href='https://twitter.com/BasedPlace_' className='mr-4 sm:mr-8'>
-                <Image src={twitterLogo} alt="Twitter Logo" className='text-footer hover:text-foreground'/>
+                <Image src={twitterLogo} alt="Twitter Logo" />
             </Link>
             <div className='mr-4 sm:mr-8'>
                 <DropdownMenu>
