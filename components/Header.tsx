@@ -33,13 +33,13 @@ export default function Header() {
             <span className='w-14 inline-block cursor-pointer'>
                 <Image src={logo} alt="Based Place Logo" />
             </span>
-            <Link href='https://mirror.xyz/0x1F58a081369967B2B4c4E2Ad0C44aF016132ef13' className='ml-auto mr-8'>
+            <Link href='https://mirror.xyz/0x1F58a081369967B2B4c4E2Ad0C44aF016132ef13' className='hidden sm:block ml-auto mr-4 sm:mr-8'>
                 <Image src={mirrorLogo} alt="Mirror Logo" className='text-footer hover:text-foreground'/>
             </Link>
-            <Link href='https://twitter.com/BasedPlace_' className='mr-8'>
+            <Link href='https://twitter.com/BasedPlace_' className='mr-4 sm:mr-8'>
                 <Image src={twitterLogo} alt="Twitter Logo" className='text-footer hover:text-foreground'/>
             </Link>
-            <div className='mr-8'>
+            <div className='mr-4 sm:mr-8'>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className='border border-foreground focus-visible:ring-offset-0 focus-visible:ring-transparent'>
@@ -50,13 +50,17 @@ export default function Header() {
                         <DropdownMenuLabel>My Account</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
-                            <DropdownMenuItem>Playground</DropdownMenuItem>
-                            <DropdownMenuItem>Dashboard</DropdownMenuItem>
-                            <DropdownMenuItem>Profile</DropdownMenuItem>
+                            <DropdownMenuItem>
+                                <Link href="/#playground">Playground</Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem>
+                                <Link href="/#dashboard">Dashboard</Link>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem className='hover:cursor-not-allowed'>Profile</DropdownMenuItem>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
-                            <DropdownMenuItem>Docs</DropdownMenuItem>
+                            <DropdownMenuItem className='hover:cursor-not-allowed'>Docs</DropdownMenuItem>
                         </DropdownMenuGroup>
                     </DropdownMenuContent>
                 </DropdownMenu>
