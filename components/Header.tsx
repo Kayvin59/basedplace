@@ -56,11 +56,11 @@ export default function Header() {
                             <DropdownMenuItem>
                                 <Link href="/#dashboard">Dashboard</Link>
                             </DropdownMenuItem>
-                            <DropdownMenuItem>Profile</DropdownMenuItem>
+                            <DropdownMenuItem className='hover:cursor-not-allowed'>Profile</DropdownMenuItem>
                         </DropdownMenuGroup>
                         <DropdownMenuSeparator />
                         <DropdownMenuGroup>
-                            <DropdownMenuItem>Docs</DropdownMenuItem>
+                            <DropdownMenuItem className='hover:cursor-not-allowed'>Docs</DropdownMenuItem>
                         </DropdownMenuGroup>
                     </DropdownMenuContent>
                 </DropdownMenu>
