@@ -6,7 +6,7 @@ export default function Hero() {
     return (
     <>
         <div className="flex flex-col order-2 lg:order-none w-11/12 sm:w-3/4 lg:w-1/2 p-8 lg:p-12 border-b-2 rounded-lg bg-white">
-            <h1 className="text-5xl lg:text-6xl text-left mb-12 self-center font-secondary">Based Place</h1>
+            <h1 className="text-5xl lg:text-6xl md:text-left mb-12 text-center font-secondary">Based Place</h1>
             <p className="flex flex-col text-left text-2xl mb-12">
                 <span className="mb-2">
                     There is a based canvas.
