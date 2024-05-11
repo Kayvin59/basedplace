@@ -5,12 +5,13 @@ import ConnectWalletBtn from '@/components/ConnectWalletBtn';
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { formatUnits } from 'viem';
 import { useAccount, useReadContract, useWriteContract } from 'wagmi';
 import { abi } from '../app/abi';
 import logo from '../public/logo.png';
 import mirrorLogo from '../public/mirror.svg';
 import twitterLogo from '../public/twitter.svg';
-  
+
 
 export default function Header() {
     
@@ -63,19 +64,24 @@ export default function Header() {
                     <Image src={logo} alt="Based Place Logo" />
                 </Link>
             </span>
-            <div>Total Supply: {result ? result.data : 'Loading...'}</div>
-            <div>Balance: {balance?.toString()}</div>
             <button 
                 onClick={handleMint}
             >
                 Mint
             </button>
-            <Link href='https://mirror.xyz/0x1F58a081369967B2B4c4E2Ad0C44aF016132ef13' className='hidden sm:block ml-auto mr-4 sm:mr-8'>
-                <Image src={mirrorLogo} alt="Mirror Logo" />
-            </Link>
-            <Link href='https://twitter.com/BasedPlace_' className='mr-4 sm:mr-8'>
-                <Image src={twitterLogo} alt="Twitter Logo" />
-            </Link>
+            <div className='flex ml-auto items-center'>
+                {isConnected && (
+                    <span className='flex items-center gap-1'>{balance ? formatUnits(balance, 18) : ''} 
+                        <span className='text-2xl font-secondary'>{''} BP</span>
+                    </span>
+                )}
+                <Link href='https://mirror.xyz/0x1F58a081369967B2B4c4E2Ad0C44aF016132ef13' className='hidden sm:block mx-4 sm:mx-8'>
+                    <Image src={mirrorLogo} alt="Mirror Logo" />
+                </Link>
+                <Link href='https://twitter.com/BasedPlace_' className='mr-4 sm:mr-8'>
+                    <Image src={twitterLogo} alt="Twitter Logo" />
+                </Link>
+            </div>
             <AccountDropdown />
             <ConnectWalletBtn />
             <span className='separator w-separator absolute h-px -bottom-px bg-border left-1/2 -translate-x-1/2'></span>

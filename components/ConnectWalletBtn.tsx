@@ -14,7 +14,7 @@ export default function ConnectWalletBtn() {
 
     return (
         <>
-            <Button onClick={handleOpenModal} className='ml-auto font-primary font-bold text-l text-white bg-footer hover:bg-foreground'>
+            <Button onClick={handleOpenModal} className='font-primary font-bold text-l text-white bg-footer hover:bg-foreground'>
                 {isConnected ? (
                     <>
                         <span>{getEllipsisAddress(address)}</span>
