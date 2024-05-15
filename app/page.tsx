@@ -6,6 +6,7 @@ import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import Playground from '@/components/Playground';
 import ProfileCard from '@/components/ProfileCard';
+import { createClient } from '@/lib/supabase/client';
 import { getPixels as getpixelsFromDb } from '@/lib/supabase/index';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -14,6 +15,26 @@ import externalLink from '../public/external-link.svg';
 
 export default async function Home() {
   const pixels = await getpixelsFromDb();
+  const client = createClient();
+  // Join the realtime room
+  const realtimeRoom = client.channel('realtime', {
+    config: {
+      broadcast: { self: true}
+    }
+  });
+
+  // Listen for changes
+  realtimeRoom.on(
+    'postgres_changes',
+    {
+      event: 'UPDATE',
+      schema: 'public',
+    },
+    (payload) => console.log(payload)
+  ).subscribe()
+
+  // TODO: Add cleanup room
+
   return (
     <>
       <Header />

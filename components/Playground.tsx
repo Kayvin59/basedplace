@@ -54,6 +54,26 @@ export default function Playground({ pixels }: { pixels: PixelsProps[]}) {
       setUpdatedPixels(newUpdatedPixels);
     }
 
+    // realtime update
+    const client = createClient();
+    const realtimeRoom = client.channel('realtime');
+
+
+  realtimeRoom.subscribe((status) => {
+    // Wait for successful connection
+    if (status !== 'SUBSCRIBED') {
+      return null
+    }
+
+    // Send a message once the client is subscribed
+    realtimeRoom.send({
+      type: 'broadcast',
+      event: 'test',
+      payload: { message: 'hello, world' },
+    })
+  })
+
+
     setOpenDrawer(false);
   };
 
