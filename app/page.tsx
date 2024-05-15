@@ -1,3 +1,4 @@
+
 import ActionPanel from '@/components/ActionPanel';
 import Dashboard from '@/components/Dashboard';
 import Footer from '@/components/Footer';
@@ -5,14 +6,15 @@ import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import Playground from '@/components/Playground';
 import ProfileCard from '@/components/ProfileCard';
+import { getPixels as getpixelsFromDb } from '@/lib/supabase/index';
 import Image from 'next/image';
 import Link from 'next/link';
 import externalLink from '../public/external-link.svg';
 
-export default function Home() {
 
+export default async function Home() {
+  const pixels = await getpixelsFromDb();
   return (
-
     <>
       <Header />
       <main className="flex max-w-6xl mx-auto min-h-screen flex-col items-center py-16 font-primary">
@@ -22,7 +24,7 @@ export default function Home() {
           <ActionPanel />
           <section id="playground" className="w-11/12 lg:w-full mb-16 border rounded-lg bg-white">
             <h2 className='p-6 text-2xl font-secondary border-b'>Playground</h2>
-            <Playground />
+            <Playground pixels={pixels ?? []}/>
           </section>
           <section id="profile" className="w-11/12 lg:w-full mb-16 border rounded-lg bg-white">
             <div className='flex justify-between items-center p-6 border-b'>
