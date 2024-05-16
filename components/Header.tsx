@@ -2,15 +2,11 @@
 
 import AccountDropdown from '@/components/AccountDropdown';
 import ConnectWalletBtn from '@/components/ConnectWalletBtn';
+import Logo from '@/components/Logo';
+import SocialLinks from '@/components/SocialLinks';
 
-import Image from 'next/image';
-import Link from 'next/link';
-import { formatUnits } from 'viem';
 import { useAccount, useReadContract, useWriteContract } from 'wagmi';
 import { abi } from '../app/abi';
-import logo from '../public/logo.png';
-import mirrorLogo from '../public/mirror.svg';
-import twitterLogo from '../public/twitter.svg';
 
 
 export default function Header() {
@@ -59,33 +55,16 @@ export default function Header() {
 
     return (
         <header className='max-w-6xl mx-auto flex justify-between items-center sticky top-0 z-50 p-3 min-h-16 bg-background opacity-90 lg:py-3'>
-            <span className='w-14 inline-block cursor-pointer'>
-                <Link href="/">
-                    <Image src={logo} alt="Based Place Logo" />
-                </Link>
-            </span>
-            <button 
-                onClick={handleMint}
-            >
+            <Logo />
+            <button onClick={handleMint}>
                 Mint
             </button>
-            <div className='flex ml-auto items-center'>
-                {isConnected && (
-                    <span className='flex items-center gap-1'>{balance ? formatUnits(balance, 18) : ''} 
-                        <span className='text-2xl font-secondary'>{''} BP</span>
-                    </span>
-                )}
-                <Link href='https://mirror.xyz/0x1F58a081369967B2B4c4E2Ad0C44aF016132ef13' className='hidden sm:block mx-4 sm:mx-8'>
-                    <Image src={mirrorLogo} alt="Mirror Logo" />
-                </Link>
-                <Link href='https://twitter.com/BasedPlace_' className='mr-4 sm:mr-8'>
-                    <Image src={twitterLogo} alt="Twitter Logo" />
-                </Link>
-            </div>
+            <SocialLinks isConnected={isConnected} balance={balance} />
             <AccountDropdown />
             <ConnectWalletBtn />
             <span className='separator w-separator absolute h-px -bottom-px bg-border left-1/2 -translate-x-1/2'></span>
         </header>
     );
 }
+
 
