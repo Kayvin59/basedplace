@@ -17,6 +17,7 @@ export default async function Home() {
   const pixels = await getpixelsFromDb();
   const client = createClient();
   // Join the realtime room
+  // TODO: Right place to be triggered?
   const realtimeRoom = client.channel('realtime', {
     config: {
       broadcast: { self: true}

@@ -9,3 +9,15 @@ export async function getPixels() {
     }
     return pixels;
 }
+
+export async function updateColor(pixelsId: number, newColor: string) {
+    const supabase = createClient();
+    const { error } = await supabase.from('square_pixels').update({ color: newColor }).eq('id', pixelsId);
+    if (error) {
+      console.error(`Failed to update color in database, error message: ${error.message}`);
+      return false;
+    } else {
+      console.log("Color updated successfully");
+      return true;
+    }
+}
