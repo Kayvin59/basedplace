@@ -35,11 +35,12 @@ export default function Playground({ pixels }: { pixels: PixelsProps[]}) {
     setOpenDrawer(true);
   };
 
-  async function updateColor() {
+  async function updateColor(pixelsId: number, newColor: string) {
     const supabase = createClient();
-    const { error } = await supabase.from('square_pixels').update({ color: selectedColor }).eq('id', pixels[selectedIndex].id);
+    const { error } = await supabase.from('square_pixels').update({ color: pixelsId }).eq('id', newColor);
     if (error) {
-      throw new Error(`Failed to update color in database, error message: ${error.message}`);
+      console.error(`Failed to update color in database, error message: ${error.message}`);
+      return false;
     } else {
       console.log("Color updated successfully");
       return true;
@@ -50,38 +51,39 @@ export default function Playground({ pixels }: { pixels: PixelsProps[]}) {
     // Update the color in the UI
     const newColors = [...squareColors];
     newColors[selectedIndex] = selectedColor;
-    setSquareColors(newColors);
-
+    
     // Update the color in the database
-    await updateColor();
+    const isUpdated = await updateColor(pixels[selectedIndex].id, selectedColor);
 
-    // Update the color in the state
-    const updatedPixelIndex = updatedPixels.findIndex((pixel) => pixel.id === pixels[selectedIndex].id);
-    if (updatedPixelIndex !== -1) {
-      const newUpdatedPixels = [...updatedPixels];
-      newUpdatedPixels[updatedPixelIndex].color = selectedColor;
-      setUpdatedPixels(newUpdatedPixels);
+    if (isUpdated) {
+      setSquareColors(newColors);
+
+      // Update the color in the state
+      const updatedPixelIndex = updatedPixels.findIndex((pixel) => pixel.id === pixels[selectedIndex].id);
+      if (updatedPixelIndex !== -1) {
+        const newUpdatedPixels = [...updatedPixels];
+        newUpdatedPixels[updatedPixelIndex].color = selectedColor;
+        setUpdatedPixels(newUpdatedPixels);
+      }
     }
 
     // realtime update
     const client = createClient();
     const realtimeRoom = client.channel('realtime');
 
+    realtimeRoom.subscribe((status) => {
+      // Wait for successful connection
+      if (status !== 'SUBSCRIBED') {
+        return null
+      }
 
-  realtimeRoom.subscribe((status) => {
-    // Wait for successful connection
-    if (status !== 'SUBSCRIBED') {
-      return null
-    }
-
-    // Send a message once the client is subscribed
-    realtimeRoom.send({
-      type: 'broadcast',
-      event: 'test',
-      payload: { message: 'hello, world' },
+      // Send a message once the client is subscribed
+      realtimeRoom.send({
+        type: 'broadcast',
+        event: 'test',
+        payload: { message: 'hello, world' },
+      })
     })
-  })
-
 
     setOpenDrawer(false);
   };
@@ -137,6 +139,7 @@ export default function Playground({ pixels }: { pixels: PixelsProps[]}) {
           <p className="text-green">Minting complete</p>
         )}
       </div>
+      {/* You can play if isconnected */}
       <div className="w-40 h-40">
         <div className="grid grid-cols-10 grid-rows-10 gap-x-0 gap-y-0 border border-foreground">
           {squareColors.map((color, index) => (
