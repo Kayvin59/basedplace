@@ -20,7 +20,7 @@ export default function Playground({ pixels }: { pixels: PixelsProps[]}) {
   const [selectedIndex, setSelectedIndex] = useState(-1)
   const [openDrawer, setOpenDrawer] = useState(false);
   const [updatedPixels, setUpdatedPixels] = useState<PixelsProps[]>(pixels);
-  const [isMinting, setIsMinting] = useState(false);
+  const [isMinting, setIsMinting] = useState<'init' | 'pending' | 'complete' | 'error'>('init');
   const [balance, setBalance] = useState<bigint | undefined>('0' as unknown as bigint);
   const [dbError, setDbError] = useState<string | null>(null);
   
@@ -101,6 +101,8 @@ export default function Playground({ pixels }: { pixels: PixelsProps[]}) {
         return;
     }
 
+    setIsMinting('pending')
+
     try {
         await writeContractAsync({
             address: '0x5ddaf93e4E7873B5A34a181d3191742B116aeF9B',
@@ -110,14 +112,16 @@ export default function Playground({ pixels }: { pixels: PixelsProps[]}) {
         {
             onSuccess: () => {
                 console.log("Transaction Complete: ");
-                setIsMinting(true)
+                setIsMinting('complete')
             },
             onError: (error) => {
                 console.error("Error minting: ", error);
+                setIsMinting('error')
             }
         })
     } catch (e) {
         console.error("Error minting BP token", e);
+        setIsMinting('error')
     }
   };
 
@@ -142,6 +146,18 @@ export default function Playground({ pixels }: { pixels: PixelsProps[]}) {
         <p>To start playing you need some tokens</p>
         <p>You can mint 5 $BP tokens every 24H</p>
         <Button className="mt-4 mb-2" onClick={handleMint}>Mint</Button>
+        {isMinting === 'init' && (
+          <p>Click to start minting</p>
+        )}
+        {isMinting === 'pending' && (
+          <p className="text-yellow-500">Minting in progress...</p>
+        )}
+        {isMinting === 'complete' && (
+          <p className="text-green-500">Minting complete</p>
+        )}
+        {isMinting === 'error' && (
+          <p className="text-red-500">Failed to mint tokens. Minting is allowed every 24H</p>
+        )}
         {isMinting && (
           <p className="text-green">Minting complete</p>
         )}
