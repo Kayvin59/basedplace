@@ -148,7 +148,7 @@ export default function Playground({ pixels }: { pixels: PixelsProps[]}) {
           <p className="text-red-500">Failed to mint tokens. Minting is allowed every 24H</p>
         )}
         {isMinting && (
-          <p className="text-green">Minting complete</p>
+          <p className="text-green">Minting complete. Start playing !</p>
         )}
       </div>
       {isConnected && (
