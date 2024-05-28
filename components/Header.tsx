@@ -14,7 +14,6 @@ export default function Header() {
         token: '0x5ddaf93e4E7873B5A34a181d3191742B116aeF9B',
     })
 
-
     return (
         <header className='max-w-6xl mx-auto flex justify-between items-center sticky top-0 z-50 p-3 min-h-16 bg-background opacity-90 lg:py-3'>
             <Logo />

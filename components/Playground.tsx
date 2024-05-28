@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import { colors } from "@/lib/constant";
 import { createClient } from "@/lib/supabase/client";
-import { updateColor as updateColorDb } from '@/lib/supabase/index';
+// import { updateColor as updateColorDb } from '@/lib/supabase/index';
 import { PixelsProps } from "@/types/index";
 import { useEffect, useState } from "react";
 import { formatUnits } from "viem";
@@ -38,13 +38,26 @@ export default function Playground({ pixels }: { pixels: PixelsProps[]}) {
     setOpenDrawer(true);
   };
 
+  async function updateColor(pixelsId: number, newColor: string) {
+    const supabase = createClient();
+    const { error } = await supabase.from('square_pixels').update({ color: newColor }).eq('id', pixelsId);
+    if (error) {
+      console.error(`Failed to update color in database, error message: ${error.message}`);
+      return false;
+    } else {
+      console.log("Color updated successfully");
+      return true;
+    }
+  }
+
   const handleConfirm = async () => {
     // Update the color in the UI
     const newColors = [...squareColors];
     newColors[selectedIndex] = selectedColor;
     
     // Update the color in the database
-    const isUpdated = await updateColorDb(pixels[selectedIndex].id, selectedColor);
+    // const isUpdated = await updateColorDb(pixels[selectedIndex].id, selectedColor);
+    const isUpdated = await updateColor(pixels[selectedIndex].id, selectedColor);
 
     if (isUpdated) {
       setSquareColors(newColors);
@@ -142,14 +155,12 @@ export default function Playground({ pixels }: { pixels: PixelsProps[]}) {
           <p className="text-yellow-500">Minting in progress...</p>
         )}
         {isMinting === 'complete' && (
-          <p className="text-green-500">Minting complete</p>
+          <p className="text-green-500">Minting complete. Start playing !</p>
         )}
         {isMinting === 'error' && (
           <p className="text-red-500">Failed to mint tokens. Minting is allowed every 24H</p>
         )}
-        {isMinting && (
-          <p className="text-green">Minting complete. Start playing !</p>
-        )}
+        <span>test:{isMinting}</span>
       </div>
       {isConnected && (
         <div className="w-40 h-40">
