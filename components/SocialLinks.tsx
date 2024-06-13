@@ -26,7 +26,7 @@ export default function SocialLinks({ isConnected, balance }: LinkProps) {
 
     return <div className='flex ml-auto items-center'>
         {isConnected && (
-            <span className='flex items-center gap-1 text-2xl font-secondary'>{formattedBalance}</span>
+            <span className='flex items-center gap-1 text-2xl font-primary font-bold'>{formattedBalance}</span>
         )}
         <Link href='https://mirror.xyz/0x1F58a081369967B2B4c4E2Ad0C44aF016132ef13' className='hidden sm:block mx-4 sm:mx-8'>
             <Image src={mirrorLogo} alt="Mirror Logo" />
