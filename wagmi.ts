@@ -4,14 +4,8 @@ import { coinbaseWallet } from 'wagmi/connectors';
 
 export const config = createConfig({
   chains: [baseSepolia],
-  connectors: [coinbaseWallet({ appName: 'Create Wagmi', appChainIds: [baseSepolia.id] })],
+  connectors: [coinbaseWallet({ appName: 'Create Wagmi'})],
   transports: {
     [baseSepolia.id]: http(),
   },
 });
-
-declare module 'wagmi' {
-  interface Register {
-    config: typeof config;
-  }
-}
