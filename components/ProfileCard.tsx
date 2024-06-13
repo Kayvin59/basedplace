@@ -37,15 +37,15 @@ export default function ProfileCard() {
         <div className="p-6 flex flex-col items-center gap-6 md:gap-0 md:flex-row md:justify-between">
             <div className="w-48 flex flex-col justify-between items-center p-6 border rounded-lg bg-background hover:bg-footer hover:text-white">
                 <span className="mb-8">Pixels minted</span>
-                <span className="text-4xl font-bold font-secondary">{userProfileData?.pixels_minted}</span>
+                <span className="text-4xl font-bold font-secondary">{isConnected ? userProfileData?.pixels_minted : "-"}</span>
             </div>
             <div className="w-48 flex flex-col justify-between items-center p-6 border rounded-lg bg-background hover:bg-footer hover:text-white">
                 <span className="mb-8">VeToken</span>
-                <span className="text-4xl font-bold font-secondary">{userProfileData?.ve_token}</span>
+                <span className="text-4xl font-bold font-secondary">{isConnected ? userProfileData?.ve_token : "-"}</span>
             </div>
             <div className="w-48 flex flex-col justify-between items-center p-6 border rounded-lg bg-background hover:bg-footer hover:text-white">
                 <span className="mb-8">Votes</span>  
-                <span className="text-4xl font-bold font-secondary white whitespace-nowrap">{userProfileData?.votes}</span>
+                <span className="text-4xl font-bold font-secondary white whitespace-nowrap">{isConnected ? userProfileData?.votes : "-"}</span>
             </div>
         </div>
     )
