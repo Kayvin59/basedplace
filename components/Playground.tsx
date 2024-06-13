@@ -108,41 +108,43 @@ export default function Playground({ pixels }: { pixels: PixelsProps[]}) {
   }, [updatedPixels]);
 
   return (
-    <div className="px-6 py-12 flex items-center justify-between gap-6">
-      <Mint />
+    <div className="px-6 py-12 flex flex-col md:flex-row items-center justify-between gap-12">
       {isConnected && (
-        <div className="w-40 h-40">
-          <div className="grid grid-cols-10 grid-rows-10 gap-x-0 gap-y-0 border border-foreground">
-            {squareColors.map((color, index) => (
-              <Drawer key={index} open={openDrawer && selectedIndex === index} onOpenChange={setOpenDrawer}>
-                <DrawerTrigger>
-                  <div
-                    className="w-4 h-4 cursor-pointer hover:border border-foreground"
-                    style={{ backgroundColor: color }}
-                    onClick={() => handleSquareClick(index)}
-                  ></div>
-                </DrawerTrigger>
-                <DrawerContent>
-                  {openDrawer && selectedIndex === index && (
-                    <>
-                      <ColorPicker colors={colors} onColorClick={handleColorClick} onConfirm={handleConfirm} dberrorMsg={dbError}/>
-                      <p className="text-red-600 mt-2"></p>
-                    </>
-                  )}
-                </DrawerContent>
-              </Drawer>
-            ))}
+        <>
+          <Mint />
+          <div className="w-40 h-40">
+            <div className="grid grid-cols-10 grid-rows-10 gap-x-0 gap-y-0 border border-foreground">
+              {squareColors.map((color, index) => (
+                <Drawer key={index} open={openDrawer && selectedIndex === index} onOpenChange={setOpenDrawer}>
+                  <DrawerTrigger>
+                    <div
+                      className="w-4 h-4 cursor-pointer hover:border border-foreground"
+                      style={{ backgroundColor: color }}
+                      onClick={() => handleSquareClick(index)}
+                    ></div>
+                  </DrawerTrigger>
+                  <DrawerContent>
+                    {openDrawer && selectedIndex === index && (
+                      <>
+                        <ColorPicker colors={colors} onColorClick={handleColorClick} onConfirm={handleConfirm} dberrorMsg={dbError}/>
+                        <p className="text-red-600 mt-2"></p>
+                      </>
+                    )}
+                  </DrawerContent>
+                </Drawer>
+              ))}
+            </div>
+          </div>        
+          <div className="flex-1 self-center md:self-start text-right">
+            <p>Balance : 
+              <span>{balance !== undefined ? `${formatUnits(balance, 18)} $BP` : "Loading..."}</span>
+            </p>
           </div>
-        </div>
+        </>
       )}
       {!isConnected && (
-        <div className="w-2/3 h-60 my-12 mx-auto border border-foreground hover:cursor-not-allowed bg-white"></div>
+        <div className="w-60 h-60 my-12 mx-auto border border-foreground hover:cursor-not-allowed bg-white"></div>
       )}
-      <div className="flex-1 self-start text-right">
-        <p>Balance : 
-          <span>{balance !== undefined ? `${formatUnits(balance, 18)} $BP` : "Loading..."}</span>
-        </p>
-      </div>
     </div>
   );
 }
