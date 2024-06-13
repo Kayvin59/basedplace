@@ -52,7 +52,6 @@ export default function Playground({ pixels }: { pixels: PixelsProps[]}) {
     newColors[selectedIndex] = selectedColor;
     
     // Update the color in the database
-    // const isUpdated = await updateColorDb(pixels[selectedIndex].id, selectedColor);
     const isUpdated = await updateColor(pixels[selectedIndex].id, selectedColor);
 
     if (isUpdated) {
@@ -141,7 +140,7 @@ export default function Playground({ pixels }: { pixels: PixelsProps[]}) {
       )}
       <div className="flex-1 self-start text-right">
         <p>Balance : 
-          <span>{balance !== undefined ? `${formatUnits(balance, 18)} BP` : "Loading..."}</span>
+          <span>{balance !== undefined ? `${formatUnits(balance, 18)} $BP` : "Loading..."}</span>
         </p>
       </div>
     </div>
