@@ -42,10 +42,10 @@ export default function Mint() {
     };
 
     return (
-      <div className="flex flex-col items-center flex-1 self-start">
+      <div className="flex flex-col items-center flex-1 self-center lg:self-start">
         <p>To start playing you need some tokens</p>
         <p>You can mint 5 $BP tokens every 24H</p>
-        <Button className="mt-4 mb-4 text-lg bg-footer" onClick={handleMint}>Start Minting</Button>
+        <Button className="mt-4 mb-4 text-lg bg-footer hover:bg-foreground" onClick={handleMint}>Start Minting</Button>
         {isMinting === 'init' && (
           <p>Click to start minting</p>
         )}

@@ -12,7 +12,7 @@ export default function ActionPanel() {
                     <p>Bring and build your community.</p>
                     <p>Unleash your creativity in this unique experiment</p>
                 </div>
-                <Button className='text-lg w-2/3 bg-footer hover:cursor-not-allowed'>Get started</Button>
+                <Button className='text-lg w-2/3 bg-footer hover:cursor-not-allowed hover:bg-foreground'>Get started</Button>
             </div>
             <div className="w-11/12 sm:w-3/4 lg:w-1/3 p-6 flex flex-col items-center bg-white rounded-md text-center border">
                 <h1 className='mb-6 text-6xl font-secondary'>
@@ -24,7 +24,7 @@ export default function ActionPanel() {
                     </p>
                     <p>Navigate through our docs and blog to learn about our journey </p>
                 </div>
-                <Button className='text-lg w-2/3 bg-footer lg:self-center mt-auto hover:cursor-not-allowed'>Learn more</Button>
+                <Button className='text-lg w-2/3 bg-footer lg:self-center mt-auto hover:cursor-not-allowed hover:bg-foreground'>Learn more</Button>
             </div>
         </div>
     )

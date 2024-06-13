@@ -44,11 +44,11 @@ export default async function Home() {
             <Hero />
           </section>
           <ActionPanel />
-          <section id="playground" className="w-11/12 lg:w-full mb-16 border rounded-lg bg-white">
+          <section id="playground" className="w-11/12 mb-16 border rounded-lg bg-white">
             <h2 className='p-6 text-2xl font-secondary border-b'>Playground</h2>
             <Playground pixels={pixels ?? []}/>
           </section>
-          <section id="profile" className="w-11/12 lg:w-full mb-16 border rounded-lg bg-white">
+          <section id="profile" className="w-11/12 mb-16 border rounded-lg bg-white">
             <div className='flex justify-between items-center p-6 border-b'>
               <h2 className='text-2xl font-secondary'>My stats</h2>
               <Link href="/profile" className='flex hover:cursor-not-allowed'>
@@ -60,7 +60,7 @@ export default async function Home() {
             </div>
             <ProfileCard />
           </section>
-          <section id='dashboard' className="w-11/12 lg:w-full mb-16 border rounded-lg bg-white">
+          <section id='dashboard' className="w-11/12 mb-16 border rounded-lg bg-white">
             <h2 className='p-6 text-2xl font-secondary'>Dashboard</h2>
             <Dashboard />
           </section>
