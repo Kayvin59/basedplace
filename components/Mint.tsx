@@ -1,9 +1,11 @@
 "use client"
 
 import { Button } from '@/components/ui/button';
+import { CircleCheck, CircleEllipsis, CircleX } from "lucide-react";
 import { useState } from 'react';
 import { useAccount, useWriteContract } from 'wagmi';
-import { abi } from '../app/abi';
+// import { abi } from '../app/abi';
+import { BPAbi } from '@/abi/BPAbi';
 
 export default function Mint() {
     const [isMinting, setIsMinting] = useState<'init' | 'pending' | 'complete' | 'error'>('init');
@@ -22,7 +24,7 @@ export default function Mint() {
         try {
             await writeContractAsync({
                 address: '0x5ddaf93e4E7873B5A34a181d3191742B116aeF9B',
-                abi,
+                abi: BPAbi,
                 functionName: 'mint',
             },
             {
@@ -50,13 +52,22 @@ export default function Mint() {
           <p>Click to start minting</p>
         )}
         {isMinting === 'pending' && (
-          <p className="text-yellow-500">Check your wallet to approve minting</p>
+          <>
+            <div><CircleEllipsis /></div>
+            <p className="text-center text-yellow-500">Check your wallet to approve minting</p>
+          </>
         )}
         {isMinting === 'complete' && (
-          <p className="text-green-500">Minting complete. Start playing !</p>
+          <>
+            <div className='text-green'><CircleCheck /></div>
+            <p className="text-center text-green">Minting complete. Start playing !</p>
+          </>
         )}
         {isMinting === 'error' && (
-          <p className="text-red-500">Failed to mint tokens. Minting is allowed every 24H</p>
+          <>
+            <div className="text-red-500"><CircleX className='text-red'/></div>
+            <p className="text-center text-red-500 tex">Failed to mint tokens. Minting is allowed every 24H</p>
+          </>
         )}
       </div>
     )
