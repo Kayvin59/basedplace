@@ -8,9 +8,6 @@ import Playground from '@/components/Playground';
 import ProfileCard from '@/components/ProfileCard';
 import { createClient } from '@/lib/supabase/client';
 import { getPixels as getpixelsFromDb } from '@/lib/supabase/index';
-import Image from 'next/image';
-import Link from 'next/link';
-import externalLink from '../public/external-link.svg';
 
 
 export default async function Home() {
@@ -45,23 +42,12 @@ export default async function Home() {
           </section>
           <ActionPanel />
           <section id="playground" className="w-11/12 mb-16 border rounded-lg bg-white">
-            <h2 className='p-6 text-2xl font-secondary border-b'>Playground</h2>
             <Playground pixels={pixels ?? []}/>
           </section>
           <section id="profile" className="w-11/12 mb-16 border rounded-lg bg-white">
-            <div className='flex justify-between items-center p-6 border-b'>
-              <h2 className='text-2xl font-secondary'>My stats</h2>
-              <Link href="/profile" className='flex hover:cursor-not-allowed'>
-                Profile
-                <span className='ml-2'>
-                  <Image src={externalLink} alt="external link" width={25} height={25} />
-                </span>
-              </Link>
-            </div>
             <ProfileCard />
           </section>
           <section id='dashboard' className="w-11/12 mb-16 border rounded-lg bg-white">
-            <h2 className='p-6 text-2xl font-secondary'>Dashboard</h2>
             <Dashboard />
           </section>
       </main>
