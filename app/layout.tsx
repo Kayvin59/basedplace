@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
-
-import { Providers } from "@/app/provider";
+import { ThirdwebProvider } from "thirdweb/react";
 import { abril_fatface, merriweather } from './font';
 import "./globals.css";
 
@@ -19,7 +18,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${abril_fatface.variable} ${merriweather.variable} relative`}>
-        <Providers>{children}</Providers>
+        <ThirdwebProvider>{children}</ThirdwebProvider>
       </body>
     </html>
   );

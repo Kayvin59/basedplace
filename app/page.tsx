@@ -7,11 +7,11 @@ import Hero from '@/components/Hero';
 import Playground from '@/components/Playground';
 import ProfileCard from '@/components/ProfileCard';
 import { createClient } from '@/lib/supabase/client';
-import { getPixels as getpixelsFromDb } from '@/lib/supabase/index';
 
 
 export default async function Home() {
-  const pixels = await getpixelsFromDb();
+  // TODO: Move to playground component : await getpixelsFromDb()
+  const pixels = null;
   const client = createClient();
   // Join the realtime room
   // TODO: Right place to be triggered?
