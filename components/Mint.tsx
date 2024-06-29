@@ -3,25 +3,42 @@
 import { Button } from '@/components/ui/button';
 import { CircleCheck, CircleEllipsis, CircleX } from "lucide-react";
 import { useState } from 'react';
-import { useAccount, useWriteContract } from 'wagmi';
 // import { abi } from '../app/abi';
 import { BPAbi } from '@/abi/BPAbi';
+import { baseTestnet } from '@/app/chains';
+import { client } from '@/app/client';
+import { prepareContractCall } from 'thirdweb';
+import { useActiveAccount, useSendTransaction } from 'thirdweb/react';
 
 export default function Mint() {
     const [isMinting, setIsMinting] = useState<'init' | 'pending' | 'complete' | 'error'>('init');
 
-    const { address } = useAccount();
-    const { writeContractAsync } = useWriteContract()
+    const account = useActiveAccount();
+    const { mutate: sendTransaction } = useSendTransaction();
+    /* const { writeContractAsync } = useWriteContract() */
 
     const handleMint = async () => {
-        if(address === undefined) {
+        if(account === undefined) {
             console.error("Please connect your wallet to mint.");
             return;
         }
     
         setIsMinting('pending')
+
+        const transaction = prepareContractCall({
+          contract: {
+            // address: "0xA6ce6718e11b7d8ED5175784493d552606Fa47c2", // BP_TOKEN_ADDRESS thirdweb
+            address: "0x5ddaf93e4E7873B5A34a181d3191742B116aeF9B",
+            abi: BPAbi as any, // TODO: Fix this type
+            client: client,
+            chain: baseTestnet
+          },
+          method: "mint", 
+          params: [] // `0x${account}`, toWei("5")
+        })
+        sendTransaction(transaction)
     
-        try {
+/*         try {
             await writeContractAsync({
                 address: '0x5ddaf93e4E7873B5A34a181d3191742B116aeF9B',
                 abi: BPAbi,
@@ -32,7 +49,7 @@ export default function Mint() {
                     console.log("Transaction Complete! ");
                     setIsMinting('complete')
                 },
-                onError: (error) => {
+                onError: (error: any) => {
                     console.error("Error minting: ", error);
                     setIsMinting('error')
                 }
@@ -40,7 +57,7 @@ export default function Mint() {
         } catch (e) {
             console.error("Error minting BP token", e);
             setIsMinting('error')
-        }
+        } */
     };
 
     return (

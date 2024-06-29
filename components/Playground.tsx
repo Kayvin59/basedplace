@@ -5,11 +5,11 @@ import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import { colors } from "@/lib/constant";
 import { createClient } from "@/lib/supabase/client";
 // import { updateColor as updateColorDb } from '@/lib/supabase/index';
+import { baseTestnet } from "@/app/chains";
+import { client } from "@/app/client";
 import { PixelsProps } from "@/types/index";
 import { useEffect, useState } from "react";
-import { formatUnits } from "viem";
-import { useAccount, useBalance } from "wagmi";
-import Mint from "./Mint";
+import { useActiveAccount, useWalletBalance } from "thirdweb/react";
 
 
 const initialColor: string = "#FFFFFF";
@@ -20,10 +20,16 @@ export default function Playground({ pixels }: { pixels: PixelsProps[]}) {
   const [selectedIndex, setSelectedIndex] = useState(-1)
   const [openDrawer, setOpenDrawer] = useState(false);
   const [updatedPixels, setUpdatedPixels] = useState<PixelsProps[]>(pixels);
-  const [balance, setBalance] = useState<bigint | undefined>('0' as unknown as bigint);
+  const [balance, setBalance] = useState<string>('0');
   const [dbError, setDbError] = useState<string | null>(null);
-  
-  const { address, isConnected } = useAccount()
+
+  const account = useActiveAccount()
+  const { data, isLoading, isError } = useWalletBalance({
+    chain: baseTestnet,
+    address: account?.address,
+    client: client,
+    tokenAddress: '0x5ddaf93e4E7873B5A34a181d3191742B116aeF9B',
+  })
 
   const handleColorClick = (color: string) => {
     setSelectedColor(color);
@@ -92,16 +98,11 @@ export default function Playground({ pixels }: { pixels: PixelsProps[]}) {
 
   };
 
-  const result = useBalance({
-    address: address,
-    token: '0x5ddaf93e4E7873B5A34a181d3191742B116aeF9B',
-  })
-
   useEffect(() => {
-    if (result.data) {
-      setBalance(result.data.value);
+    if (data) {
+      setBalance(data.displayValue);
     }
-  }, [result.data]);
+  }, [data]);
 
   useEffect(() => {
     setSquareColors(updatedPixels.map((pixel) => pixel.color));
@@ -111,9 +112,9 @@ export default function Playground({ pixels }: { pixels: PixelsProps[]}) {
     <>
       <h2 className='p-6 text-2xl font-secondary border-b'>Playground</h2>
       <div className="px-6 py-12 flex flex-col md:flex-row items-center justify-between gap-12">
-        {isConnected && (
+        {account && (
           <>
-            <Mint />
+            {/* <Mint /> */}
             <div className="w-40 h-40">
               <div className="grid grid-cols-10 grid-rows-10 gap-x-0 gap-y-0 border border-foreground">
                 {squareColors.map((color, index) => (
@@ -138,13 +139,11 @@ export default function Playground({ pixels }: { pixels: PixelsProps[]}) {
               </div>
             </div>        
             <div className="flex-1 self-center md:self-start text-right">
-              <p>Balance : 
-                <span>{balance !== undefined ? `${formatUnits(balance, 18)} $BP` : "Loading..."}</span>
-              </p>
+                <span>Balance : {balance} $BP</span>
             </div>
           </>
         )}
-        {!isConnected && (
+        {!account && (
           <div className="w-60 h-60 my-12 mx-auto border border-foreground hover:cursor-not-allowed bg-white"></div>
         )}
       </div>
