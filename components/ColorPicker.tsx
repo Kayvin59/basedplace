@@ -8,9 +8,10 @@ interface ColorPickerProps {
   colors: string[];
   onColorClick: (color: string) => void;
   onConfirm: () => void;
+  dberrorMsg: string | null;
 }
 
-export default function ColorPicker({ colors, onColorClick, onConfirm }: ColorPickerProps) {
+export default function ColorPicker({ colors, onColorClick, onConfirm, dberrorMsg }: ColorPickerProps) {
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
   const [showError, setShowError] = useState(false);
 
@@ -45,7 +46,8 @@ export default function ColorPicker({ colors, onColorClick, onConfirm }: ColorPi
             ))}
           </div>
           <div className="w-full mt-auto flex flex-col gap-2 px-4">
-            {showError && <p className="text-red-500">Please select a color</p>}
+            {showError && <p className="text-red-500 text-center">Please select a color</p>}
+            {dberrorMsg && <p className="text-red-500 text-center">{dberrorMsg}</p>}
             <Button onClick={handleConfirm}>Confirm</Button>
             <DrawerClose asChild>
                 <Button variant="outline">Close</Button>
