@@ -1,5 +1,8 @@
 "use client"
 
+export { ThirdwebProvider } from "@thirdweb-dev/react";
+
+/* 
 import { wagmiConfig } from "@/config";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { createWeb3Modal } from '@web3modal/wagmi/react';
@@ -31,3 +34,4 @@ export function Providers({
         </WagmiProvider>
     );
 }
+ */

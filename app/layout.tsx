@@ -1,14 +1,13 @@
+import { abril_fatface, merriweather } from '@/app/font';
+import "@/app/globals.css";
 import type { Metadata } from "next";
 import { ThirdwebProvider } from "thirdweb/react";
-import { abril_fatface, merriweather } from './font';
-import "./globals.css";
 
 
 export const metadata: Metadata = {
   title: "Based Place",
   description: "Community experiment",
 };
-
 
 export default function RootLayout({
   children,
@@ -18,7 +17,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${abril_fatface.variable} ${merriweather.variable} relative`}>
-        <ThirdwebProvider>{children}</ThirdwebProvider>
+        <ThirdwebProvider>
+          {children}
+        </ThirdwebProvider>
       </body>
     </html>
   );

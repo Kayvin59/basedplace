@@ -5,18 +5,24 @@ import { UserProfile } from "@/types/index";
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from "react";
-import { useAccount } from 'wagmi';
+import { useActiveAccount, useActiveWalletConnectionStatus } from "thirdweb/react";
 import externalLink from '../public/external-link.svg';
 
 export default function ProfileCard() {
     const [userProfileData, setUserProfileData] = useState<UserProfile | null>(null);
-    const { address, isConnected } = useAccount();
+
+    const status = useActiveWalletConnectionStatus();
+    const account = useActiveAccount();
+    let isConnected = false;
+    if (status === 'connected') {
+        isConnected = true;
+    }
 
     useEffect(() => {
-        if(isConnected && address) {
-            getUserProfile(address)
+        if(isConnected && account) {
+            getUserProfile(account.address)
         }
-    }, [isConnected, address])
+    }, [isConnected, account])
 
     async function getUserProfile(address: string) {
         const supabase = createClient();
