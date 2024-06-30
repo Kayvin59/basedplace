@@ -4,10 +4,8 @@ import { Button } from '@/components/ui/button';
 import { CircleCheck, CircleEllipsis, CircleX } from "lucide-react";
 import { useState } from 'react';
 // import { abi } from '../app/abi';
-import { BPAbi } from '@/abi/BPAbi';
-import { baseTestnet } from '@/app/chains';
-import { client } from '@/app/client';
-import { prepareContractCall } from 'thirdweb';
+import { BP_TOKEN_ADDRESS } from '@/app/contracts';
+import { prepareContractCall, toWei } from 'thirdweb';
 import { useActiveAccount, useSendTransaction } from 'thirdweb/react';
 
 export default function Mint() {
@@ -24,18 +22,23 @@ export default function Mint() {
         }
     
         setIsMinting('pending')
-
+/* 
         const transaction = prepareContractCall({
           contract: {
-            // address: "0xA6ce6718e11b7d8ED5175784493d552606Fa47c2", // BP_TOKEN_ADDRESS thirdweb
             address: "0x5ddaf93e4E7873B5A34a181d3191742B116aeF9B",
             abi: BPAbi as any, // TODO: Fix this type
             client: client,
             chain: baseTestnet
           },
           method: "mint", 
-          params: [] // `0x${account}`, toWei("5")
+          params: []
+        }) */
+        const transaction = prepareContractCall({
+          contract: BP_TOKEN_ADDRESS,
+          method: "function mintTo(address to, uint256 amount)",
+          params: [`0x${account}`, toWei("5")],
         })
+        console.log("Transaction: ", transaction);
         sendTransaction(transaction)
     
 /*         try {

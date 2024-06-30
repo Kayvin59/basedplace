@@ -3,9 +3,9 @@ import { getContract } from "thirdweb";
 import { client } from "./client";
 
 // BP_TOKEN_ADDRESS
-export const contract = getContract({
+export const BP_TOKEN_ADDRESS = getContract({
     client: client,
-    address: "0x5ddaf93e4E7873B5A34a181d3191742B116aeF9B",
+    address: "0xA6ce6718e11b7d8ED5175784493d552606Fa47c2",
     chain: baseTestnet,
     /* abi: BPAbi */
 })
