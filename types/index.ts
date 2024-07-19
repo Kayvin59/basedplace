@@ -12,3 +12,8 @@ export interface UserProfile {
     ve_token: number;
     votes: number;
 }
+
+export interface allowListProps {
+    address: string;
+    maxClaimable: string;
+}

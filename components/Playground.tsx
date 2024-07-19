@@ -7,6 +7,7 @@ import { createClient } from "@/lib/supabase/client";
 // import { updateColor as updateColorDb } from '@/lib/supabase/index';
 import { baseTestnet } from "@/app/chains";
 import { client } from "@/app/client";
+import Mint from "@/components/Mint";
 import { PixelsProps } from "@/types/index";
 import { useEffect, useState } from "react";
 import { useActiveAccount, useWalletBalance } from "thirdweb/react";
@@ -114,7 +115,7 @@ export default function Playground({ pixels }: { pixels: PixelsProps[]}) {
       <div className="px-6 py-12 flex flex-col md:flex-row items-center justify-between gap-12">
         {account && (
           <>
-            {/* <Mint /> */}
+            <Mint />
             <div className="w-40 h-40">
               <div className="grid grid-cols-10 grid-rows-10 gap-x-0 gap-y-0 border border-foreground">
                 {squareColors.map((color, index) => (

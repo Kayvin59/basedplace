@@ -9,3 +9,9 @@ export const BP_TOKEN_ADDRESS = getContract({
     chain: baseTestnet,
     /* abi: BPAbi */
 })
+
+export const BP_AIRDROP_ADDRESS = getContract({
+    client: client,
+    address: "0xaa817847F842d1E030376CeC229371f08a4196c1",
+    chain: baseTestnet,
+})
