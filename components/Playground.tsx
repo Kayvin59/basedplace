@@ -1,31 +1,35 @@
 "use client"
 
-import ColorPicker from "@/components/ColorPicker";
-import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
-import { colors } from "@/lib/constant";
-import { createClient } from "@/lib/supabase/client";
-// import { updateColor as updateColorDb } from '@/lib/supabase/index';
-import { baseTestnet } from "@/app/chains";
-import { client } from "@/app/client";
-import Mint from "@/components/Mint";
-import { PixelsProps } from "@/types/index";
-import { useEffect, useState } from "react";
-import { useActiveAccount, useWalletBalance } from "thirdweb/react";
+import {
+  useCallback,
+  useEffect,
+  useState,
+  useTransition
+} from "react"
 
+import { prepareContractCall, sendTransaction, toWei } from 'thirdweb'
+import { useActiveAccount, useWalletBalance } from "thirdweb/react"
 
-const initialColor: string = "#FFFFFF";
+import { baseTestnet } from "@/app/chains"
+import { client } from "@/app/client"
+import { BP_TOKEN_ADDRESS } from "@/app/contracts"
+import ColorPicker from "@/components/ColorPicker"
+import Mint from "@/components/Mint"
+import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer"
+import { colors } from "@/lib/constant"
+import { createClient } from "@/lib/supabase/client"
+import { PixelsProps } from "@/types/index"
 
-export default function Playground({ pixels }: { pixels: PixelsProps[]}) {
-  const [selectedColor, setSelectedColor] = useState(initialColor);
-  const [squareColors, setSquareColors] = useState(pixels.map((pixel) => pixel.color))
+const BP_TOKEN_ADDRESS_WITH_PREFIX = BP_TOKEN_ADDRESS.address as `0x${string}`
+
+export default function Playground({ pixels: initialPixels }: { pixels: PixelsProps[] }) {
+  const [pixels, setPixels] = useState<PixelsProps[]>(initialPixels)
   const [selectedIndex, setSelectedIndex] = useState(-1)
-  const [openDrawer, setOpenDrawer] = useState(false);
-  const [updatedPixels, setUpdatedPixels] = useState<PixelsProps[]>(pixels);
-  const [balance, setBalance] = useState<string>('0');
-  const [dbError, setDbError] = useState<string | null>(null);
+  const [isPending, startTransition] = useTransition()
+  const [selectedColor, setSelectedColor] = useState<string | null>(null)
 
   const account = useActiveAccount()
-  const { data, isLoading, isError } = useWalletBalance({
+  const { data: balanceData } = useWalletBalance({
     chain: baseTestnet,
     address: account?.address,
     client: client,
@@ -33,121 +37,143 @@ export default function Playground({ pixels }: { pixels: PixelsProps[]}) {
   })
 
   const handleColorClick = (color: string) => {
-    setSelectedColor(color);
-  };
-
-  const handleSquareClick = (index: number) => {
-    setSelectedIndex(index);
-    setOpenDrawer(true);
-  };
-
-  async function updateColor(pixelsId: number, newColor: string) {
-    const supabase = createClient();
-    const { error } = await supabase.from('square_pixels').update({ color: newColor }).eq('id', pixelsId);
-    if (error) {
-      console.error(`Failed to update color in database, error message: ${error.message}`);
-      return false;
-    } else {
-      console.log("Color updated successfully");
-      return true;
-    }
+    setSelectedColor(color)
   }
 
   const handleConfirm = async () => {
-    // Update the color in the UI
-    const newColors = [...squareColors];
-    newColors[selectedIndex] = selectedColor;
-    
-    // Update the color in the database
-    const isUpdated = await updateColor(pixels[selectedIndex].id, selectedColor);
+    if (!account || !selectedColor) {
+      console.error("Please connect your wallet and select a color.")
+      return
+    }
 
-    if (isUpdated) {
-      setSquareColors(newColors);
+    try {
+      const amount = toWei("1")
+      
+      // Approve
+      const approveTx = prepareContractCall({
+        method: "function approve(address spender, uint256 amount) returns (bool)",
+        params: [account.address, amount],
+        contract: BP_TOKEN_ADDRESS,
+      })
 
-      // Update the color in the state
-      const updatedPixelIndex = updatedPixels.findIndex((pixel) => pixel.id === pixels[selectedIndex].id);
-      if (updatedPixelIndex !== -1) {
-        const newUpdatedPixels = [...updatedPixels];
-        newUpdatedPixels[updatedPixelIndex].color = selectedColor;
-        setUpdatedPixels(newUpdatedPixels);
+      console.log("Approving transaction...")
+      const approveResult = await sendTransaction({ transaction: approveTx, account })
+      
+      if (!approveResult) {
+        throw new Error("Approval transaction failed")
       }
 
-      // realtime update
-      const client = createClient();
-      const realtimeRoom = client.channel('realtime');
-  
-      realtimeRoom.subscribe((status) => {
-        // Wait for successful connection
-        if (status !== 'SUBSCRIBED') {
-          return null
-        }
-  
-        // Send a message once the client is subscribed
-        realtimeRoom.send({
-          type: 'broadcast',
-          event: 'test',
-          payload: { message: 'hello, world' },
-        })
+      console.log("Approval successful, proceeding with transfer...")
+
+      // Transfer
+      const transferTx = prepareContractCall({
+        contract: BP_TOKEN_ADDRESS,
+        method: "function transferFrom(address from, address to, uint256 amount) returns (bool)",
+        params: [account.address, BP_TOKEN_ADDRESS_WITH_PREFIX, amount],
       })
-  
-      setOpenDrawer(false);
-      setDbError("")
-    } else {
-      setDbError("Failed to update color in database. Please try again.")
+
+      console.log("Initiating transfer...")
+      const transferResult = await sendTransaction({ transaction: transferTx, account })
+
+      if (!transferResult) {
+        throw new Error("Transfer transaction failed")
+      }
+
+      console.log("Transfer successful, updating pixel color...")
+      await updatePixelColor(selectedIndex, selectedColor)
+      setSelectedColor(null)
+    } catch (error) {
+      console.error("Error in transaction process: ", error)
     }
+  }
 
+  const updatePixelColor = async (index: number, color: string) => {
+    startTransition(async () => {
+      try {
+        const supabase = createClient()
+        const { error } = await supabase
+          .from('square_pixels')
+          .update({ color })
+          .eq('id', pixels[index].id)
 
-  };
+        if (error) {
+          throw new Error(`Failed to update color in database: ${error.message}`)
+        }
 
+        setPixels(prevPixels => 
+          prevPixels.map((pixel, i) => 
+            i === index ? { ...pixel, color } : pixel
+          )
+        )
+        console.log("Color updated successfully")
+      } catch (error) {
+        console.error("Error updating pixel color: ", error)
+      }
+    })
+  }
+
+  const handleRealtimeUpdate = useCallback((payload: { new: PixelsProps }) => {
+    setPixels(prevPixels => 
+      prevPixels.map(pixel => 
+        pixel.id === payload.new.id ? { ...pixel, ...payload.new } : pixel
+      )
+    )
+  }, [])
+
+  // Set up real-time listener
   useEffect(() => {
-    if (data) {
-      setBalance(data.displayValue);
+    const supabase = createClient()
+    const channel = supabase.channel('square_pixels_changes')
+      .on(
+        'postgres_changes',
+        { event: 'UPDATE', schema: 'public', table: 'square_pixels' },
+        handleRealtimeUpdate
+      )
+      .subscribe()
+
+    return () => {
+      supabase.removeChannel(channel)
     }
-  }, [data]);
-
-  useEffect(() => {
-    setSquareColors(updatedPixels.map((pixel) => pixel.color));
-  }, [updatedPixels]);
+  }, [handleRealtimeUpdate])
 
   return (
     <>
-      <h2 className='p-6 text-2xl font-secondary border-b'>Playground</h2>
+      <h2 className="p-6 text-2xl font-secondary border-b">Playground</h2>
       <div className="px-6 py-12 flex flex-col md:flex-row items-center justify-between gap-12">
-        {account && (
+        {account ? (
           <>
             <Mint />
             <div className="w-40 h-40">
               <div className="grid grid-cols-10 grid-rows-10 gap-x-0 gap-y-0 border border-foreground">
-                {squareColors.map((color, index) => (
-                  <Drawer key={index} open={openDrawer && selectedIndex === index} onOpenChange={setOpenDrawer}>
-                    <DrawerTrigger>
+                {pixels.map((pixel, index) => (
+                  <Drawer key={pixel.id}>
+                    <DrawerTrigger asChild>
                       <div
-                        className="w-4 h-4 cursor-pointer hover:border border-foreground"
-                        style={{ backgroundColor: color }}
-                        onClick={() => handleSquareClick(index)}
-                      ></div>
+                        className="w-4 h-4 cursor-pointer hover:border border-foreground transition-colors duration-200"
+                        style={{ backgroundColor: pixel.color }}
+                        onClick={() => setSelectedIndex(index)}
+                      />
                     </DrawerTrigger>
                     <DrawerContent>
-                      {openDrawer && selectedIndex === index && (
-                        <>
-                          <ColorPicker colors={colors} onColorClick={handleColorClick} onConfirm={handleConfirm} dberrorMsg={dbError}/>
-                          <p className="text-red-600 mt-2"></p>
-                        </>
-                      )}
+                      <ColorPicker
+                        colors={colors}
+                        onColorClick={handleColorClick}
+                        onConfirm={handleConfirm}
+                        selectedColor={selectedColor}
+                      />
                     </DrawerContent>
                   </Drawer>
                 ))}
               </div>
-            </div>        
+            </div>
             <div className="flex-1 self-center md:self-start text-right">
-                <span>Balance : {balance} $BP</span>
+              <span>Balance: {balanceData?.displayValue ?? '0'} $BP</span>
             </div>
           </>
-        )}
-        {!account && (
-          <div className="w-60 h-60 my-12 mx-auto border border-foreground hover:cursor-not-allowed bg-white"></div>
+        ) : (
+          <div className="w-60 h-60 my-12 mx-auto border border-foreground hover:cursor-not-allowed bg-white" />
         )}
       </div>
     </>
-  );
+  )
 }
