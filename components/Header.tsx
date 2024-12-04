@@ -8,7 +8,7 @@ import SocialLinks from '@/components/SocialLinks';
 export default function Header() {
 
     return (
-        <header className='max-w-6xl mx-auto flex justify-between items-center sticky top-0 z-50 p-3 min-h-16 bg-background opacity-90 lg:py-3'>
+        <header className='max-w-6xl mx-auto flex justify-between items-center sticky top-0 z-50 p-3 h-16 bg-background opacity-90 lg:py-3'>
             <Logo />
             <SocialLinks />
             <AccountDropdown />
