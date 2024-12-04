@@ -1,5 +1,7 @@
-import { baseTestnet } from "@/app/chains";
 import { getContract } from "thirdweb";
+
+import { baseTestnet } from "@/app/chains";
+
 import { client } from "./client";
 
 // BP_TOKEN_ADDRESS

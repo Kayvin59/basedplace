@@ -1,10 +1,11 @@
 "use client"
 
-import { baseSepolia } from '@/app/chains';
-import { client } from '@/app/client';
 import { defineChain } from 'thirdweb';
 import { ConnectButton } from 'thirdweb/react';
 import { createWallet } from "thirdweb/wallets";
+
+import { baseSepolia } from '@/app/chains';
+import { client } from '@/app/client';
 
 export default function ConnectWalletBtn() {
   const wallets = [

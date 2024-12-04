@@ -1,11 +1,15 @@
 "use client"
 
-import { createClient } from "@/lib/supabase/client";
-import { UserProfile } from "@/types/index";
+import { useEffect, useState } from "react";
+
 import Image from 'next/image';
 import Link from 'next/link';
-import { useEffect, useState } from "react";
+
 import { useActiveAccount, useActiveWalletConnectionStatus } from "thirdweb/react";
+
+import { createClient } from "@/lib/supabase/client";
+import { UserProfile } from "@/types/index";
+
 import externalLink from '../public/external-link.svg';
 
 export default function ProfileCard() {
