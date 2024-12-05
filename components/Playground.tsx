@@ -7,6 +7,7 @@ import {
   useTransition
 } from "react"
 
+import { Clock, Coins, PaintBucket, Trophy } from 'lucide-react'
 import { prepareContractCall, sendTransaction, toWei } from 'thirdweb'
 import { useActiveAccount, useWalletBalance } from "thirdweb/react"
 
@@ -27,6 +28,9 @@ export default function Playground({ pixels: initialPixels }: { pixels: PixelsPr
   const [selectedIndex, setSelectedIndex] = useState(-1)
   const [isPending, startTransition] = useTransition()
   const [selectedColor, setSelectedColor] = useState<string | null>(null)
+  const [points, setPoints] = useState<number>(0)
+  const [lastInteraction, setLastInteraction] = useState<string | null>(null)
+  const [totalPixelsColored, setTotalPixelsColored] = useState<number>(0)
 
   const account = useActiveAccount()
   const { data: balanceData } = useWalletBalance({
@@ -35,6 +39,18 @@ export default function Playground({ pixels: initialPixels }: { pixels: PixelsPr
     client: client,
     tokenAddress: '0x5ddaf93e4E7873B5A34a181d3191742B116aeF9B',
   })
+
+  const fetchPoints = useCallback(async () => {
+    // This is a placeholder. Replace with actual API call to fetch points.
+    const fetchedPoints = Math.floor(Math.random() * 100) // Simulating fetched points
+    setPoints(fetchedPoints)
+  }, [])
+
+  useEffect(() => {
+    if (account) {
+      fetchPoints()
+    }
+  }, [account, fetchPoints])
 
   const handleColorClick = (color: string) => {
     setSelectedColor(color)
@@ -82,6 +98,9 @@ export default function Playground({ pixels: initialPixels }: { pixels: PixelsPr
       console.log("Transfer successful, updating pixel color...")
       await updatePixelColor(selectedIndex, selectedColor)
       setSelectedColor(null)
+      setLastInteraction(new Date().toISOString())
+      setTotalPixelsColored(prev => prev + 1)
+      fetchPoints() // Refetch points after successful interaction
     } catch (error) {
       console.error("Error in transaction process: ", error)
     }
@@ -166,8 +185,30 @@ export default function Playground({ pixels: initialPixels }: { pixels: PixelsPr
                 ))}
               </div>
             </div>
-            <div className="flex-1 self-center md:self-start text-right">
-              <span>Balance: {balanceData?.displayValue ?? '0'} $BP</span>
+            <div className="flex-1 self-center md:self-start">
+              <div className="bg-white p-6 rounded-lg shadow-md">
+                <h3 className="text-xl font-bold mb-4">Player Stats</h3>
+                <div className="space-y-3">
+                  <div className="flex items-center">
+                    <Coins className="mr-2 text-yellow" />
+                    <span>Balance: {balanceData?.displayValue ?? '0'} $BP</span>
+                  </div>
+                  <div className="flex items-center">
+                    <Trophy className="mr-2 text-blue-500" />
+                    <span>Points: {points}</span>
+                  </div>
+                  <div className="flex items-center">
+                    <PaintBucket className="mr-2 text-green" />
+                    <span>Pixels Colored: {totalPixelsColored}</span>
+                  </div>
+                  {lastInteraction && (
+                    <div className="flex items-center">
+                      <Clock className="mr-2 text-purple-500" />
+                      <span>Last Interaction: {new Date(lastInteraction).toLocaleString()}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
           </>
         ) : (
