@@ -12,5 +12,11 @@ const nextConfig = {
 
 module.exports = withBundleAnalyzer(nextConfig)
 
+module.exports = {
+  experimental: {
+    optimizeCss: true,
+  },
+};
+
 /* export default nextConfig;
  */

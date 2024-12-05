@@ -1,9 +1,13 @@
-import { BP_AIRDROP_ADDRESS } from '@/app/contracts';
-import { allowListProps } from '@/types';
-import { createMerkleTreeFromAllowList, getProofsForAllowListEntry } from '@thirdweb-dev/sdk';
+"use client"
+
 import { useState } from 'react';
+
+import { createMerkleTreeFromAllowList, getProofsForAllowListEntry } from '@thirdweb-dev/sdk';
 import { prepareContractCall, toWei } from 'thirdweb';
 import { useActiveAccount, useSendTransaction } from 'thirdweb/react';
+
+import { BP_AIRDROP_ADDRESS } from '@/app/contracts';
+import { allowListProps } from '@/types';
 
 
 export const useMintTokens = (allowList: allowListProps[]) => {
@@ -19,15 +23,13 @@ export const useMintTokens = (allowList: allowListProps[]) => {
         }
 
         try {
+            console.log("AllowList: ", allowList);
             const merkleTree = await createMerkleTreeFromAllowList(allowList);
             const leaf = {
               "address": account.address,
               "maxClaimable": "20"
             };
-    
             const proof = await getProofsForAllowListEntry(merkleTree, leaf);
-            console.log("Proof: ", proof); 
-            console.log("proofHash: ", proof[0]);
             return proof as `0x${string}`[];
         } catch (error) {
             console.error("Error generating user proof: ", error);
@@ -38,6 +40,7 @@ export const useMintTokens = (allowList: allowListProps[]) => {
     const handleMint = async () => {
         if(account === undefined) {
             console.error("Please connect your wallet to mint.");
+            // Add a toast message here
             return;
         }
 
@@ -45,6 +48,7 @@ export const useMintTokens = (allowList: allowListProps[]) => {
 
         try {
             const userProof = await getUserProof();
+            console.log("User Proof: ", userProof);
             if (!userProof || userProof.length === 0) {
                 console.error("Proof is not available or invalid.");
                 setIsMinting('error');
@@ -55,16 +59,21 @@ export const useMintTokens = (allowList: allowListProps[]) => {
                 contract: BP_AIRDROP_ADDRESS, 
                 method: "function claim(address _receiver, uint256 _quantity, bytes32[] _proofs, uint256 _proofMaxQuantityForWallet)", 
                 params: [account.address, toWei("5"), userProof, toWei("20")] 
+
             })
+            console.log("Sending transaction with params: ", account.address, toWei("5"), userProof, toWei("20"));
+            console.log("Type of Quantity:", typeof toWei("5"));
     
-            sendTransaction(transaction)
+            await sendTransaction(transaction)
             setIsMinting('complete');
             console.log("Transaction: ", transaction);
             console.log("transactionResult: ", transactionResult);
 
         } catch (error) {
             console.error("Minting failed: ", error);
+            console.error("Error isMinting: ", isMinting);
             setIsMinting('error');
+            console.error("Error minting tokens: ", error);
             return;
         }
     };
