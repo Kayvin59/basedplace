@@ -41,7 +41,6 @@ export default function Playground({ pixels: initialPixels }: { pixels: PixelsPr
   })
 
   const fetchPoints = useCallback(async () => {
-    // This is a placeholder. Replace with actual API call to fetch points.
     const fetchedPoints = Math.floor(Math.random() * 100) // Simulating fetched points
     setPoints(fetchedPoints)
   }, [])
@@ -100,7 +99,7 @@ export default function Playground({ pixels: initialPixels }: { pixels: PixelsPr
       setSelectedColor(null)
       setLastInteraction(new Date().toISOString())
       setTotalPixelsColored(prev => prev + 1)
-      fetchPoints() // Refetch points after successful interaction
+      fetchPoints()
     } catch (error) {
       console.error("Error in transaction process: ", error)
     }
@@ -165,7 +164,7 @@ export default function Playground({ pixels: initialPixels }: { pixels: PixelsPr
             <div className="w-40 h-40">
               <div className="grid grid-cols-10 grid-rows-10 gap-x-0 gap-y-0 border border-foreground">
                 {pixels.map((pixel, index) => (
-                  <Drawer key={pixel.id}>
+                  <Drawer key={`${pixel.id}-${index}`}>
                     <DrawerTrigger asChild>
                       <div
                         className="w-4 h-4 cursor-pointer hover:border border-foreground transition-colors duration-200"

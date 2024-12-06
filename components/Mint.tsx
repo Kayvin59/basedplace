@@ -12,7 +12,7 @@ const allowList = [
   { address: "0x1F58a081369967B2B4c4E2Ad0C44aF016132ef13", maxClaimable: "20" },
   { address: "0x394e4D99286291Ad6dA6d0d3CAEB8afcEa9924c6", maxClaimable: "20" },
   { address: "0xC11Fba40AC00f57A5A33d80C2bFa983852C45608", maxClaimable: "20" },
-  { address: "0x29848267BeddEbBa79F68Af949f8C4276E195CA4", maxClaimable: "20" },
+  { address: "0x9904C36EFf3eF8c649551c493496bd2BAB0AF4B7", maxClaimable: "20" }, // BP user2: 0x29848267BeddEbBa79F68Af949f8C4276E195CA4
 ];
 
 export default function Mint() {
