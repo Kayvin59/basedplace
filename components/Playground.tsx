@@ -17,9 +17,11 @@ import { BP_TOKEN_ADDRESS } from "@/app/contracts"
 import ColorPicker from "@/components/ColorPicker"
 import Mint from "@/components/Mint"
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer"
+import { useToast } from "@/hooks/use-toast"
 import { colors } from "@/lib/constant"
 import { createClient } from "@/lib/supabase/client"
 import { PixelsProps } from "@/types/index"
+
 
 const BP_TOKEN_ADDRESS_WITH_PREFIX = BP_TOKEN_ADDRESS.address as `0x${string}`
 
@@ -39,6 +41,7 @@ export default function Playground({ pixels: initialPixels }: { pixels: PixelsPr
     client: client,
     tokenAddress: '0x5ddaf93e4E7873B5A34a181d3191742B116aeF9B',
   })
+  const { toast } = useToast()
 
   const fetchPoints = useCallback(async () => {
     const fetchedPoints = Math.floor(Math.random() * 100) // Simulating fetched points
@@ -58,6 +61,11 @@ export default function Playground({ pixels: initialPixels }: { pixels: PixelsPr
   const handleConfirm = async () => {
     if (!account || !selectedColor) {
       console.error("Please connect your wallet and select a color.")
+      toast({
+        title: "Error",
+        description: "Please connect your wallet and select a color.",
+        variant: "destructive",
+      })
       return
     }
 
@@ -100,8 +108,17 @@ export default function Playground({ pixels: initialPixels }: { pixels: PixelsPr
       setLastInteraction(new Date().toISOString())
       setTotalPixelsColored(prev => prev + 1)
       fetchPoints()
+      toast({
+        title: "Success",
+        description: "Pixel color updated successfully!",
+      })
     } catch (error) {
       console.error("Error in transaction process: ", error)
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "An unknown error occurred",
+        variant: "destructive",
+      })
     }
   }
 
@@ -126,6 +143,11 @@ export default function Playground({ pixels: initialPixels }: { pixels: PixelsPr
         console.log("Color updated successfully")
       } catch (error) {
         console.error("Error updating pixel color: ", error)
+        toast({
+          title: "Error",
+          description: error instanceof Error ? error.message : "Failed to update pixel color",
+          variant: "destructive",
+        })
       }
     })
   }
