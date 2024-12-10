@@ -9,15 +9,15 @@ import {
 
 import { Clock, Coins, PaintBucket, Trophy } from 'lucide-react'
 import { prepareContractCall, sendTransaction, toWei } from 'thirdweb'
-import { useActiveAccount, useWalletBalance } from "thirdweb/react"
+import { useActiveAccount } from "thirdweb/react"
 
-import { baseTestnet } from "@/app/chains"
-import { client } from "@/app/client"
 import { BP_TOKEN_ADDRESS } from "@/app/contracts"
 import ColorPicker from "@/components/ColorPicker"
 import Mint from "@/components/Mint"
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer"
+import { Skeleton } from "@/components/ui/skeleton"
 import { useToast } from "@/hooks/use-toast"
+import { useBalance } from "@/hooks/useBalance"
 import { colors } from "@/lib/constant"
 import { createClient } from "@/lib/supabase/client"
 import { PixelsProps } from "@/types/index"
@@ -35,12 +35,7 @@ export default function Playground({ pixels: initialPixels }: { pixels: PixelsPr
   const [totalPixelsColored, setTotalPixelsColored] = useState<number>(0)
 
   const account = useActiveAccount()
-  const { data: balanceData } = useWalletBalance({
-    chain: baseTestnet,
-    address: account?.address,
-    client: client,
-    tokenAddress: '0x5ddaf93e4E7873B5A34a181d3191742B116aeF9B',
-  })
+  const { formattedBalance, isLoading } = useBalance()
   const { toast } = useToast()
 
   const fetchPoints = useCallback(async () => {
@@ -212,7 +207,11 @@ export default function Playground({ pixels: initialPixels }: { pixels: PixelsPr
                 <div className="space-y-3">
                   <div className="flex items-center">
                     <Coins className="mr-2 text-yellow" />
-                    <span>Balance: {balanceData?.displayValue ?? '0'} $BP</span>
+                    {isLoading ? (
+                        <Skeleton className="h-7 w-20" />
+                    ) : (
+                        <span>{formattedBalance ?? '0'} $BP</span>
+                    )}
                   </div>
                   <div className="flex items-center">
                     <Trophy className="mr-2 text-blue-500" />
