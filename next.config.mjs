@@ -1,9 +1,10 @@
+// @ts-check
+ 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    webpack: config => {
-      config.externals.push('pino-pretty', 'lokijs', 'encoding')
-      return config
-    }
+  experimental: {
+    optimizeCss: true,
+  },
 }
 
-export default nextConfig;
+export default nextConfig

@@ -1,75 +1,81 @@
 "use client"
 
-import { Button } from '@/components/ui/button';
-import { CircleCheck, CircleEllipsis, CircleX } from "lucide-react";
 import { useState } from 'react';
-import { useAccount, useWriteContract } from 'wagmi';
-// import { abi } from '../app/abi';
-import { BPAbi } from '@/abi/BPAbi';
+
+import { createMerkleTreeFromAllowList } from '@thirdweb-dev/sdk';
+import { CircleCheck, CircleEllipsis, CircleX } from 'lucide-react';
+
+import { Button } from '@/components/ui/button';
+import { useMintTokens } from '@/hooks/useMintTokens';
+
+const allowList = [
+  { address: "0x1F58a081369967B2B4c4E2Ad0C44aF016132ef13", maxClaimable: "20" },
+  { address: "0x394e4D99286291Ad6dA6d0d3CAEB8afcEa9924c6", maxClaimable: "20" },
+  { address: "0xC11Fba40AC00f57A5A33d80C2bFa983852C45608", maxClaimable: "20" },
+  { address: "0x9904C36EFf3eF8c649551c493496bd2BAB0AF4B7", maxClaimable: "20" }, // BP user2: 0x29848267BeddEbBa79F68Af949f8C4276E195CA4
+];
 
 export default function Mint() {
-    const [isMinting, setIsMinting] = useState<'init' | 'pending' | 'complete' | 'error'>('init');
+    const [merkleRoot, setMerkleRoot] = useState<string | null>(null);
+    const { handleMint, isMinting, isPending, error, transactionResult } = useMintTokens(allowList);
 
-    const { address } = useAccount();
-    const { writeContractAsync } = useWriteContract()
-
-    const handleMint = async () => {
-        if(address === undefined) {
-            console.error("Please connect your wallet to mint.");
-            return;
-        }
-    
-        setIsMinting('pending')
-    
+    const handleMintProcess = async () => {
         try {
-            await writeContractAsync({
-                address: '0x5ddaf93e4E7873B5A34a181d3191742B116aeF9B',
-                abi: BPAbi,
-                functionName: 'mint',
-            },
-            {
-                onSuccess: () => {
-                    console.log("Transaction Complete! ");
-                    setIsMinting('complete')
-                },
-                onError: (error) => {
-                    console.error("Error minting: ", error);
-                    setIsMinting('error')
-                }
-            })
-        } catch (e) {
-            console.error("Error minting BP token", e);
-            setIsMinting('error')
+            console.log("Generating Merkle tree...");
+            const merkleTree = await createMerkleTreeFromAllowList(allowList);
+            const root = merkleTree.getHexRoot();
+            setMerkleRoot(root);
+            console.log("Merkle Root generated:", root);
+
+            console.log("Initiating minting process...");
+            await handleMint();
+        } catch (error) {
+            console.error("Error in minting process:", error);
         }
     };
 
     return (
-      <div className="flex flex-col items-center flex-1 self-center lg:self-start">
-        <p>To start playing you need some tokens</p>
-        <p>You can mint 5 $BP tokens every 24H</p>
-        <Button className="mt-4 mb-4 text-lg bg-footer hover:bg-foreground" onClick={handleMint}>Start Minting</Button>
-        {isMinting === 'init' && (
-          <p>Click to start minting</p>
-        )}
-        {isMinting === 'pending' && (
-          <>
-            <div><CircleEllipsis /></div>
-            <p className="text-center text-yellow-500">Check your wallet to approve minting</p>
-          </>
-        )}
-        {isMinting === 'complete' && (
-          <>
-            <div className='text-green'><CircleCheck /></div>
-            <p className="text-center text-green">Minting complete. Start playing !</p>
-          </>
-        )}
-        {isMinting === 'error' && (
-          <>
-            <div className="text-red-500"><CircleX className='text-red'/></div>
-            <p className="text-center text-red-500 tex">Failed to mint tokens. Minting is allowed every 24H</p>
-          </>
-        )}
-      </div>
-    )
-}
+        <div className="flex flex-col items-center justify-center p-6 bg-white rounded-lg shadow-md max-w-sm w-full">
+            <h2 className="text-2xl font-bold mb-4">Mint Tokens</h2>
+            <p className="text-center mb-4">To start playing, you need some tokens.</p>
+            <p className="text-center mb-6">You can mint 5 $BP tokens every 24 hours.</p>
+            
+            <Button 
+                className="w-full py-2 px-4 bg-footer hover:bg-foreground transition-colors duration-200 text-white font-semibold rounded-lg shadow-md"
+                onClick={handleMintProcess}
+                disabled={isMinting === 'complete' || isPending}
+            >
+                {isMinting === 'init' ? 'Mint Tokens' : 
+                 isMinting === 'complete' ? 'Minting Complete' : 
+                 'Minting in Progress...'}
+            </Button>
 
+            {isPending && (
+                <div className="mt-4 flex items-center">
+                    <CircleEllipsis className="animate-spin mr-2" />
+                    <p className="text-yellow-500">Transaction pending...</p>
+                </div>
+            )}
+
+            {isMinting === 'complete' && (
+                <div className="mt-4 flex items-center text-green">
+                    <CircleCheck className="mr-2" />
+                    <p>Minting complete. Start playing!</p>
+                </div>
+            )}
+
+            {error && (
+                <div className="max-w-full mt-4 flex flex-col break-words items-center text-red-500">
+                    <CircleX className="mb-2" />
+                    <p className="max-w-full break-words">{error.message || 'An unknown error occurred'}</p>
+                </div>
+            )}
+
+            {transactionResult && (
+                <p className="mt-4 text-sm text-gray-600 break-all">
+                    Transaction hash: {transactionResult.transactionHash}
+                </p>
+            )}
+        </div>
+    );
+}

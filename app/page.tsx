@@ -5,13 +5,13 @@ import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import Playground from '@/components/Playground';
-import ProfileCard from '@/components/ProfileCard';
+import { getPixels } from '@/lib/supabase';
 import { createClient } from '@/lib/supabase/client';
-import { getPixels as getpixelsFromDb } from '@/lib/supabase/index';
 
 
 export default async function Home() {
-  const pixels = await getpixelsFromDb();
+  // TODO: Move to playground component : await getpixelsFromDb()
+  const pixels = await getPixels();
   const client = createClient();
   // Join the realtime room
   // TODO: Right place to be triggered?
@@ -45,7 +45,7 @@ export default async function Home() {
             <Playground pixels={pixels ?? []}/>
           </section>
           <section id="profile" className="w-11/12 mb-16 border rounded-lg bg-white">
-            <ProfileCard />
+            {/* <ProfileCard /> */}
           </section>
           <section id='dashboard' className="w-11/12 mb-16 border rounded-lg bg-white">
             <Dashboard />

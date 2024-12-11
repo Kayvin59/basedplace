@@ -1,15 +1,13 @@
-import type { Metadata } from "next";
+import { abril_fatface, merriweather } from '@/app/font'
+import "@/app/globals.css"
+import { Providers } from '@/app/providers'
 
-import { Providers } from "@/app/provider";
-import { abril_fatface, merriweather } from './font';
-import "./globals.css";
-
+import type { Metadata } from "next"
 
 export const metadata: Metadata = {
   title: "Based Place",
   description: "Community experiment",
-};
-
+}
 
 export default function RootLayout({
   children,
@@ -22,5 +20,5 @@ export default function RootLayout({
         <Providers>{children}</Providers>
       </body>
     </html>
-  );
+  )
 }
