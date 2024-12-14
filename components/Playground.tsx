@@ -7,7 +7,7 @@ import {
   useTransition
 } from "react"
 
-import { Clock, Coins, PaintBucket, Trophy } from 'lucide-react'
+import { Coins, PaintBucket, Trophy } from 'lucide-react'
 import { prepareContractCall, sendTransaction, toWei } from 'thirdweb'
 import { useActiveAccount } from "thirdweb/react"
 
@@ -18,6 +18,7 @@ import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useToast } from "@/hooks/use-toast"
 import { useBalance } from "@/hooks/useBalance"
+import { useUserPoints } from "@/hooks/useUserPoints"
 import { colors } from "@/lib/constant"
 import { createClient } from "@/lib/supabase/client"
 import { PixelsProps } from "@/types/index"
@@ -30,24 +31,11 @@ export default function Playground({ pixels: initialPixels }: { pixels: PixelsPr
   const [selectedIndex, setSelectedIndex] = useState(-1)
   const [isPending, startTransition] = useTransition()
   const [selectedColor, setSelectedColor] = useState<string | null>(null)
-  const [points, setPoints] = useState<number>(0)
-  const [lastInteraction, setLastInteraction] = useState<string | null>(null)
-  const [totalPixelsColored, setTotalPixelsColored] = useState<number>(0)
 
   const account = useActiveAccount()
   const { formattedBalance, isLoading } = useBalance()
+  const { userPoints, isLoading: isPointsLoading, error: pointsError, refetch: refetchPoints } = useUserPoints()
   const { toast } = useToast()
-
-  const fetchPoints = useCallback(async () => {
-    const fetchedPoints = Math.floor(Math.random() * 100) // Simulating fetched points
-    setPoints(fetchedPoints)
-  }, [])
-
-  useEffect(() => {
-    if (account) {
-      fetchPoints()
-    }
-  }, [account, fetchPoints])
 
   const handleColorClick = (color: string) => {
     setSelectedColor(color)
@@ -100,13 +88,11 @@ export default function Playground({ pixels: initialPixels }: { pixels: PixelsPr
       console.log("Transfer successful, updating pixel color...")
       await updatePixelColor(selectedIndex, selectedColor)
       setSelectedColor(null)
-      setLastInteraction(new Date().toISOString())
-      setTotalPixelsColored(prev => prev + 1)
-      fetchPoints()
       toast({
         title: "Success",
         description: "Pixel color updated successfully!",
       })
+      refetchPoints()
     } catch (error) {
       console.error("Error in transaction process: ", error)
       toast({
@@ -215,18 +201,19 @@ export default function Playground({ pixels: initialPixels }: { pixels: PixelsPr
                   </div>
                   <div className="flex items-center">
                     <Trophy className="mr-2 text-blue-500" />
-                    <span>Points: {points}</span>
+                    <span>Points: 
+                      {isPointsLoading ? (
+                        <Skeleton className="h-4 w-5 ml-1" />
+                      ) : (
+                        <span className="ml-1">{userPoints}</span>
+                        
+                      )}
+                    </span>
                   </div>
                   <div className="flex items-center">
                     <PaintBucket className="mr-2 text-green" />
-                    <span>Pixels Colored: {totalPixelsColored}</span>
+                    <span>Total Pixels: 100</span>
                   </div>
-                  {lastInteraction && (
-                    <div className="flex items-center">
-                      <Clock className="mr-2 text-purple-500" />
-                      <span>Last Interaction: {new Date(lastInteraction).toLocaleString()}</span>
-                    </div>
-                  )}
                 </div>
               </div>
             </div>
