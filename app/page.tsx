@@ -42,7 +42,7 @@ export default async function Home() {
           </section>
           <ActionPanel />
           <section id="playground" className="w-11/12 mb-16 border rounded-lg bg-white">
-            <Playground pixels={pixels ?? []}/>
+            <Playground initialPixels={pixels ?? []}/>
           </section>
           <section id="profile" className="w-11/12 mb-16 border rounded-lg bg-white">
             {/* <ProfileCard /> */}

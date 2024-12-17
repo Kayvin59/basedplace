@@ -1,52 +1,37 @@
 "use client"
 
-import {
-  useCallback,
-  useEffect,
-  useState,
-  useTransition
-} from "react"
+import { useEffect } from "react"
 
 import { Coins, PaintBucket, Trophy } from 'lucide-react'
 import { prepareContractCall, sendTransaction, toWei } from 'thirdweb'
 import { useActiveAccount } from "thirdweb/react"
 
 import { BP_TOKEN_ADDRESS } from "@/app/contracts"
-import ColorPicker from "@/components/ColorPicker"
 import Mint from "@/components/Mint"
-import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer"
+import PixelGrid from "@/components/PixelGrid"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useToast } from "@/hooks/use-toast"
 import { useBalance } from "@/hooks/useBalance"
+import { usePixels } from "@/hooks/usePixels"
 import { useUserPoints } from "@/hooks/useUserPoints"
-import { colors } from "@/lib/constant"
 import { createClient } from "@/lib/supabase/client"
 import { PixelsProps } from "@/types/index"
 
-
 const BP_TOKEN_ADDRESS_WITH_PREFIX = BP_TOKEN_ADDRESS.address as `0x${string}`
 
-export default function Playground({ pixels: initialPixels }: { pixels: PixelsProps[] }) {
-  const [pixels, setPixels] = useState<PixelsProps[]>(initialPixels)
-  const [selectedIndex, setSelectedIndex] = useState(-1)
-  const [isPending, startTransition] = useTransition()
-  const [selectedColor, setSelectedColor] = useState<string | null>(null)
-
+export default function Playground({ initialPixels }: { initialPixels: PixelsProps[] }) {
   const account = useActiveAccount()
-  const { formattedBalance, isLoading } = useBalance()
+  const { formattedBalance, isLoading: isBalanceLoading } = useBalance()
   const { userPoints, isLoading: isPointsLoading, error: pointsError, refetch: refetchPoints } = useUserPoints()
+  const { pixels, updatePixelColor } = usePixels(initialPixels)
   const { toast } = useToast()
 
-  const handleColorClick = (color: string) => {
-    setSelectedColor(color)
-  }
-
-  const handleConfirm = async () => {
-    if (!account || !selectedColor) {
-      console.error("Please connect your wallet and select a color.")
+  const handleConfirm = async (index: number, color: string) => {
+    if (!account) {
+      console.error("Please connect your wallet.")
       toast({
         title: "Error",
-        description: "Please connect your wallet and select a color.",
+        description: "Please connect your wallet.",
         variant: "destructive",
       })
       return
@@ -86,8 +71,7 @@ export default function Playground({ pixels: initialPixels }: { pixels: PixelsPr
       }
 
       console.log("Transfer successful, updating pixel color...")
-      await updatePixelColor(selectedIndex, selectedColor)
-      setSelectedColor(null)
+      await updatePixelColor(index, color)
       toast({
         title: "Success",
         description: "Pixel color updated successfully!",
@@ -103,59 +87,22 @@ export default function Playground({ pixels: initialPixels }: { pixels: PixelsPr
     }
   }
 
-  const updatePixelColor = async (index: number, color: string) => {
-    startTransition(async () => {
-      try {
-        const supabase = createClient()
-        const { error } = await supabase
-          .from('square_pixels')
-          .update({ color })
-          .eq('id', pixels[index].id)
-
-        if (error) {
-          throw new Error(`Failed to update color in database: ${error.message}`)
-        }
-
-        setPixels(prevPixels => 
-          prevPixels.map((pixel, i) => 
-            i === index ? { ...pixel, color } : pixel
-          )
-        )
-        console.log("Color updated successfully")
-      } catch (error) {
-        console.error("Error updating pixel color: ", error)
-        toast({
-          title: "Error",
-          description: error instanceof Error ? error.message : "Failed to update pixel color",
-          variant: "destructive",
-        })
-      }
-    })
-  }
-
-  const handleRealtimeUpdate = useCallback((payload: { new: PixelsProps }) => {
-    setPixels(prevPixels => 
-      prevPixels.map(pixel => 
-        pixel.id === payload.new.id ? { ...pixel, ...payload.new } : pixel
-      )
-    )
-  }, [])
-
-  // Set up real-time listener
   useEffect(() => {
     const supabase = createClient()
     const channel = supabase.channel('square_pixels_changes')
       .on(
         'postgres_changes',
         { event: 'UPDATE', schema: 'public', table: 'square_pixels' },
-        handleRealtimeUpdate
+        (payload: { new: PixelsProps }) => {
+          updatePixelColor(payload.new.id, payload.new.color)
+        }
       )
       .subscribe()
 
     return () => {
       supabase.removeChannel(channel)
     }
-  }, [handleRealtimeUpdate])
+  }, [updatePixelColor])
 
   return (
     <>
@@ -164,36 +111,14 @@ export default function Playground({ pixels: initialPixels }: { pixels: PixelsPr
         {account ? (
           <>
             <Mint />
-            <div className="w-40 h-40">
-              <div className="grid grid-cols-10 grid-rows-10 gap-x-0 gap-y-0 border border-foreground">
-                {pixels.map((pixel, index) => (
-                  <Drawer key={`${pixel.id}-${index}`}>
-                    <DrawerTrigger asChild>
-                      <div
-                        className="w-4 h-4 cursor-pointer hover:border border-foreground transition-colors duration-200"
-                        style={{ backgroundColor: pixel.color }}
-                        onClick={() => setSelectedIndex(index)}
-                      />
-                    </DrawerTrigger>
-                    <DrawerContent>
-                      <ColorPicker
-                        colors={colors}
-                        onColorClick={handleColorClick}
-                        onConfirm={handleConfirm}
-                        selectedColor={selectedColor}
-                      />
-                    </DrawerContent>
-                  </Drawer>
-                ))}
-              </div>
-            </div>
+            <PixelGrid pixels={pixels} onConfirm={handleConfirm} />
             <div className="flex-1 self-center md:self-start">
               <div className="bg-white p-6 rounded-lg shadow-md">
                 <h3 className="text-xl font-bold mb-4">Player Stats</h3>
                 <div className="space-y-3">
                   <div className="flex items-center">
                     <Coins className="mr-2 text-yellow" />
-                    {isLoading ? (
+                    {isBalanceLoading ? (
                         <Skeleton className="h-7 w-20" />
                     ) : (
                         <span>{formattedBalance ?? '0'} $BP</span>
@@ -206,7 +131,6 @@ export default function Playground({ pixels: initialPixels }: { pixels: PixelsPr
                         <Skeleton className="h-4 w-5 ml-1" />
                       ) : (
                         <span className="ml-1">{userPoints}</span>
-                        
                       )}
                     </span>
                   </div>
