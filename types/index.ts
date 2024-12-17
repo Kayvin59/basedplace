@@ -19,3 +19,11 @@ export interface allowListProps {
 }
 
 export type UpdatePixelColorFunction = (index: number, color: string) => Promise<void>;
+
+export interface PlayerStatsProps {
+    formattedBalance: string | undefined;
+    isBalanceLoading: boolean;
+    userPoints: number | undefined;
+    isPointsLoading: boolean;
+    totalPixels: number;
+  }
