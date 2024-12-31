@@ -15,11 +15,11 @@ export const useMintTokens = (allowList: allowListProps[]) => {
     const account = useActiveAccount();
     const {mutate: sendTransaction, data: transactionResult, isPending, error, } = useSendTransaction();
 
-    // Get proof for the user address
+    // Get proof for the user address, must be run once at contrct deployment
+    // TODO: Need to store it in the backend
     const getUserProof = async () => {
-        if(account === undefined) {
-          console.error("Please connect your wallet to mint.");
-          return;
+        if (!account) {
+          throw new Error("Please connect your Wallet to mint")
         }
 
         try {
@@ -38,10 +38,8 @@ export const useMintTokens = (allowList: allowListProps[]) => {
     };
 
     const handleMint = async () => {
-        if(account === undefined) {
-            console.error("Please connect your wallet to mint.");
-            // Add a toast message here
-            return;
+        if (!account) {
+            throw new Error("Please connect your Wallet to mint")
         }
 
         setIsMinting('pending')
@@ -61,20 +59,16 @@ export const useMintTokens = (allowList: allowListProps[]) => {
                 params: [account.address, toWei("5"), userProof, toWei("20")] 
 
             })
-            console.log("Sending transaction with params: ", account.address, toWei("5"), userProof, toWei("20"));
-            console.log("Type of Quantity:", typeof toWei("5"));
-    
-            await sendTransaction(transaction)
+  
+            const transactionResult = await sendTransaction(transaction);  
             setIsMinting('complete');
-            console.log("Transaction: ", transaction);
             console.log("transactionResult: ", transactionResult);
 
         } catch (error) {
-            console.error("Minting failed: ", error);
-            console.error("Error isMinting: ", isMinting);
-            setIsMinting('error');
-            console.error("Error minting tokens: ", error);
-            return;
+            if (error instanceof Error) {
+                throw new Error("Error in minting process: ", error)
+            }
+            console.error("Error in minting process: ", error);
         }
     };
 

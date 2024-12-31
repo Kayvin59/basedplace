@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect } from "react"
+// import { useEffect } from "react"
 
 import { useQuery } from "@tanstack/react-query"
 import { readContract, toEther } from "thirdweb"
@@ -27,7 +27,7 @@ export function useBalance() {
         queryFn: fetchBalance,
         enabled: !!account,
     })
-    
+/*     
     useEffect(() => {
         const intervalId = setInterval(() => {
             refetch()
@@ -35,7 +35,7 @@ export function useBalance() {
         }, 30000)
     
         return () => clearInterval(intervalId)
-    }, [refetch])
+    }, [refetch]) */
 
     return { formattedBalance, isLoading }
 }

@@ -50,6 +50,7 @@ export function usePixelTransaction(updatePixelColor: (index: number, color: str
 
       console.log("Transfer successful, updating pixel color...")
       await updatePixelColor(index, color)
+      // What happens if there is an error in the updatePixelColor function?
       console.log("Pixel color updated successfully!")
     } catch (error) {
       if (error instanceof Error) {

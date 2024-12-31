@@ -42,7 +42,7 @@ export default function Playground({ initialPixels }: { initialPixels: PixelsPro
   return (
     <>
       <h2 className="p-6 text-2xl font-secondary border-b">Playground</h2>
-      <div className="px-6 py-12 flex flex-col md:flex-row items-center justify-between gap-12">
+      <div className="px-6 py-12 flex flex-col lg:flex-row items-center justify-between gap-12">
         {account ? (
           <>
             <Mint />
