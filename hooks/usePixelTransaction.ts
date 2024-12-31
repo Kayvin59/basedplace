@@ -4,23 +4,15 @@ import { prepareContractCall, sendTransaction, toWei } from 'thirdweb'
 import { useActiveAccount } from "thirdweb/react"
 
 import { BP_TOKEN_ADDRESS } from "@/app/contracts"
-import { useToast } from "@/hooks/use-toast"
 
 const BP_TOKEN_ADDRESS_WITH_PREFIX = BP_TOKEN_ADDRESS.address as `0x${string}`
 
-export function usePixelTransaction(updatePixelColor: (index: number, color: string) => Promise<void>, refetchPoints: () => void) {
+export function usePixelTransaction(updatePixelColor: (index: number, color: string) => Promise<void>) {
   const account = useActiveAccount()
-  const { toast } = useToast()
 
   const handleConfirm = useCallback(async (index: number, color: string) => {
     if (!account) {
-      console.error("Please connect your wallet.")
-      toast({
-        title: "Error",
-        description: "Please connect your wallet.",
-        variant: "destructive",
-      })
-      return
+      throw new Error("Please connect your Wallet to play")
     }
 
     try {
@@ -58,20 +50,13 @@ export function usePixelTransaction(updatePixelColor: (index: number, color: str
 
       console.log("Transfer successful, updating pixel color...")
       await updatePixelColor(index, color)
-      toast({
-        title: "Success",
-        description: "Pixel color updated successfully!",
-      })
-      refetchPoints()
+      console.log("Pixel color updated successfully!")
     } catch (error) {
-      console.error("Error in transaction process: ", error)
-      toast({
-        title: "Error",
-        description: error instanceof Error ? error.message : "An unknown error occurred",
-        variant: "destructive",
-      })
+      if (error instanceof Error) {
+        throw new Error("Error in transaction process: ", error)
+      }
     }
-  }, [account, updatePixelColor, refetchPoints, toast])
+  }, [account, updatePixelColor])
 
   return handleConfirm
 }

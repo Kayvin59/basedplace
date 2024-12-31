@@ -20,7 +20,7 @@ export default function Playground({ initialPixels }: { initialPixels: PixelsPro
   const { formattedBalance, isLoading: isBalanceLoading } = useBalance()
   const { userPoints, isLoading: isPointsLoading, refetch: refetchPoints } = useUserPoints()
   const { pixels, updatePixelColor } = usePixels(initialPixels)
-  const handleConfirm = usePixelTransaction(updatePixelColor, refetchPoints)
+  const handleConfirm = usePixelTransaction(updatePixelColor)
 
   useEffect(() => {
     const supabase = createClient()
