@@ -21,6 +21,7 @@ export default function ConnectWalletBtn() {
       connectButton={{
         label: "Connect Wallet",
       }}
+      autoConnect={false}
     />
   );
 }
