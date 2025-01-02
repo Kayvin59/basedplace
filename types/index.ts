@@ -26,4 +26,14 @@ export interface PlayerStatsProps {
     userPoints: number | undefined;
     isPointsLoading: boolean;
     totalPixels: number;
-  }
+}
+
+export interface Transaction {
+    method: string
+    from: {
+      hash: string
+    };
+    to: {
+      hash: string
+    };
+}

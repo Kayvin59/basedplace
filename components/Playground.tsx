@@ -10,17 +10,17 @@ import PlayerStats from "@/components/PlayerStats"
 import { useBalance } from "@/hooks/useBalance"
 import { usePixels } from "@/hooks/usePixels"
 import { usePixelTransaction } from "@/hooks/usePixelTransaction"
-import { useUserPoints } from "@/hooks/useUserPoints"
+import { useUserStats } from "@/hooks/useUserStats"
 import { createClient } from "@/lib/supabase/client"
 import { PixelsProps } from "@/types/index"
-
 
 export default function Playground({ initialPixels }: { initialPixels: PixelsProps[] }) {
   const account = useActiveAccount()
   const { formattedBalance, isLoading: isBalanceLoading } = useBalance()
-  const { userPoints, isLoading: isPointsLoading, refetch: refetchPoints } = useUserPoints()
   const { pixels, updatePixelColor } = usePixels(initialPixels)
+  const { userStats, isLoading: isStatsLoading, error: statsError, refetch: refetchStats } = useUserStats()
   const handleConfirm = usePixelTransaction(updatePixelColor)
+
 
   useEffect(() => {
     const supabase = createClient()
@@ -50,9 +50,9 @@ export default function Playground({ initialPixels }: { initialPixels: PixelsPro
             <PlayerStats 
               formattedBalance={formattedBalance}
               isBalanceLoading={isBalanceLoading}
-              userPoints={userPoints}
-              isPointsLoading={isPointsLoading}
-              totalPixels={100}
+              userPoints={userStats?.userPixelCount ?? 0}
+              totalPixels={userStats?.totalPixelsColored ?? 0}
+              isPointsLoading={isStatsLoading}
             />
           </>
         ) : (
