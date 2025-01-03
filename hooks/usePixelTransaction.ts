@@ -7,7 +7,10 @@ import { BP_TOKEN_ADDRESS } from "@/app/contracts"
 
 const BP_TOKEN_ADDRESS_WITH_PREFIX = BP_TOKEN_ADDRESS.address as `0x${string}`
 
-export function usePixelTransaction(updatePixelColor: (index: number, color: string) => Promise<void>) {
+export function usePixelTransaction(
+  updatePixelColor: (index: number, color: string) => Promise<void>,
+  refetchStats: () => void
+) {
   const account = useActiveAccount()
 
   const handleConfirm = useCallback(async (index: number, color: string) => {
@@ -50,13 +53,14 @@ export function usePixelTransaction(updatePixelColor: (index: number, color: str
 
       console.log("Transfer successful, updating pixel color...")
       await updatePixelColor(index, color)
+      refetchStats()
       // What happens if there is an error in the updatePixelColor function?
     } catch (error) {
       if (error instanceof Error) {
         throw new Error("Error in transaction process: ", error)
       }
     }
-  }, [account, updatePixelColor])
+  }, [account, updatePixelColor, refetchStats])
 
   return handleConfirm
 }

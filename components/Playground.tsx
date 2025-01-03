@@ -19,7 +19,7 @@ export default function Playground({ initialPixels }: { initialPixels: PixelsPro
   const { formattedBalance, isLoading: isBalanceLoading } = useBalance()
   const { pixels, updatePixelColor } = usePixels(initialPixels)
   const { userStats, isLoading: isStatsLoading, error: statsError, refetch: refetchStats } = useUserStats()
-  const handleConfirm = usePixelTransaction(updatePixelColor)
+  const handleConfirm = usePixelTransaction(updatePixelColor, refetchStats)
 
 
   useEffect(() => {
