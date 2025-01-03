@@ -1,3 +1,6 @@
+"use client"
+
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -6,42 +9,16 @@ import {
   TableHead,
   TableHeader,
   TableRow
-} from "@/components/ui/table"
-
-const rewards = [
-    {
-      address: "0x24090b6A8eD5eE33dB5D7B34ebAa5899b4920001",
-      rank: "0001",
-      boost: "1.5x",
-      points: "2500",
-    },
-    {
-      address: "0x24090b6A8eD5eE33dB5D7B34ebAa5899b4920001",
-      rank: "0025",
-      boost: "1.5x",
-      points: "1500",
-    },
-    {
-      address: "0x24090b6A8eD5eE33dB5D7B34ebAa5899b4920001",
-      rank: "0254",
-      boost: "1.5x",
-      points: "350",
-    },
-    {
-      address: "0x24090b6A8eD5eE33dB5D7B34ebAa5899b4920001",
-      rank: "0185",
-      boost: "1.5x",
-      points: "450",
-    },
-    {
-      address: "0x24090b6A8eD5eE33dB5D7B34ebAa5899b4920001",
-      rank: "0101",
-      boost: "1.5x",
-      points: "550",
-    },
-]
+} from "@/components/ui/table";
+import { useDashboardStats } from "@/hooks/useDashboardStats";
 
 export default function Dashboard() {
+    const { dashboardStats, isLoading, error } = useDashboardStats();
+
+    if (error) {
+      return <div>Error loading dashboard stats: {error.message}</div>;
+    }
+
     return (
       <>
         <h2 className='p-6 text-2xl font-secondary'>Dashboard</h2>
@@ -55,19 +32,36 @@ export default function Dashboard() {
               </TableRow>
             </TableHeader>
             <TableBody>
-            {rewards.map((item) => (
+            {isLoading ? (
+              Array(5).fill(0).map((_, index) => (
+                <TableRow key={index}>
+                  <TableCell><Skeleton className="h-4 w-[250px]" /></TableCell>
+                  <TableCell><Skeleton className="h-4 w-[100px]" /></TableCell>
+                  <TableCell><Skeleton className="h-4 w-[100px]" /></TableCell>
+                  <TableCell className="text-right"><Skeleton className="h-4 w-[100px] ml-auto" /></TableCell>
+                </TableRow>
+              ))
+            ) : (
+              dashboardStats?.userStats.map((item, index) => (
                 <TableRow key={item.address} className="border-y hover:bg-footer hover:text-white">
                     <TableCell className="p-6 font-medium">{item.address}</TableCell>
-                    <TableCell>{item.rank}</TableCell>
-                    <TableCell>{item.boost}</TableCell>
+                    <TableCell>{(index + 1).toString().padStart(4, '0')}</TableCell>
+                    <TableCell>-</TableCell>
                     <TableCell className="p-6 text-right">{item.points}</TableCell>
                 </TableRow>
-            ))}
+              ))
+            )}
             </TableBody>
             <TableFooter>
               <TableRow>
-                  <TableCell className="px-6 py-4 " colSpan={3}>Total</TableCell>
-                  <TableCell className="p-6 text-right">5350</TableCell>
+                  <TableCell className="px-6 py-4" colSpan={3}>Total</TableCell>
+                  <TableCell className="p-6 text-right">
+                    {isLoading ? (
+                      <Skeleton className="h-4 w-[100px] ml-auto" />
+                    ) : (
+                      dashboardStats?.totalPoints
+                    )}
+                  </TableCell>
               </TableRow>
             </TableFooter>
         </Table>

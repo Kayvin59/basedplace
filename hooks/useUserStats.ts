@@ -1,11 +1,10 @@
-import { useQuery } from "@tanstack/react-query"
-import { useActiveAccount } from "thirdweb/react"
+import { useQuery } from "@tanstack/react-query";
+import { useActiveAccount } from "thirdweb/react";
 
-import { BP_TOKEN_ADDRESS } from "@/app/contracts"
-import { ApiResponse, Transaction } from "@/types/index"
+import { BASE_SEPOLIA_API } from "@/app/constants";
+import { BP_TOKEN_ADDRESS } from "@/app/contracts";
+import { ApiResponse, Transaction } from "@/types/index";
 
-
-const BASE_SEPOLIA_API = "https://base-sepolia.blockscout.com/api/v2"
 
 function countUserPixelInteractions(transactions: Transaction[], accountAddress: string): number {
     return transactions.filter(

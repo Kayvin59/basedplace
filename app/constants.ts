@@ -1,0 +1,1 @@
+export const BASE_SEPOLIA_API = "https://base-sepolia.blockscout.com/api/v2"

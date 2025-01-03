@@ -53,3 +53,8 @@ export interface PixelGridProps {
     pixels: PixelsProps[];
     onConfirm: (index: number, color: string) => Promise<void>;
 }
+
+export interface UserStats {
+  address: string;
+  points: number;
+}
