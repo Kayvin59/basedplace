@@ -27,10 +27,10 @@ export default function SocialLinks() {
                     )}
                 </div>
             )}
-            <Link href='https://mirror.xyz/0x1F58a081369967B2B4c4E2Ad0C44aF016132ef13' className='hidden sm:block mx-4 sm:mx-8'>
+            <Link href='https://mirror.xyz/0x1F58a081369967B2B4c4E2Ad0C44aF016132ef13' target='_blank' className='hidden sm:block mx-4 sm:mx-8'>
                 <Image src={mirrorLogo} alt="Mirror Logo" />
             </Link>
-            <Link href='https://twitter.com/BasedPlace_' className='mr-4 sm:mr-8'>
+            <Link href='https://twitter.com/BasedPlace_' target='_blank' className='mr-4 sm:mr-8'>
                 <Image src={twitterLogo} alt="Twitter Logo" />
             </Link>
         </div>
