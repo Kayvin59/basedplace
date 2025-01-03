@@ -37,3 +37,19 @@ export interface Transaction {
       hash: string
     };
 }
+
+export interface ApiResponse {
+    items: Transaction[]
+}
+
+export interface ColorPickerProps {
+    colors: string[]
+    onColorClick: (color: string) => void
+    onConfirm: () => void
+    selectedColor: string | null
+}
+
+export interface PixelGridProps {
+    pixels: PixelsProps[];
+    onConfirm: (index: number, color: string) => Promise<void>;
+}

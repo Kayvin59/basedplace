@@ -54,7 +54,6 @@ export function usePixelTransaction(
       console.log("Transfer successful, updating pixel color...")
       await updatePixelColor(index, color)
       refetchStats()
-      // What happens if there is an error in the updatePixelColor function?
     } catch (error) {
       if (error instanceof Error) {
         throw new Error("Error in transaction process: ", error)

@@ -4,13 +4,8 @@ import { useEffect, useState } from "react"
 
 import { Button } from "@/components/ui/button"
 import { DrawerClose } from "@/components/ui/drawer"
+import { ColorPickerProps } from "@/types/index"
 
-interface ColorPickerProps {
-  colors: string[]
-  onColorClick: (color: string) => void
-  onConfirm: () => void
-  selectedColor: string | null
-}
 
 export default function ColorPicker({ colors, onColorClick, onConfirm, selectedColor }: ColorPickerProps) {
   const [localSelectedColor, setLocalSelectedColor] = useState<string | null>(selectedColor)

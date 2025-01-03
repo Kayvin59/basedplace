@@ -3,12 +3,8 @@ import { useState } from 'react'
 import ColorPicker from "@/components/ColorPicker"
 import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer"
 import { colors } from "@/lib/constant"
-import { PixelsProps } from "@/types/index"
+import { PixelGridProps } from "@/types/index"
 
-interface PixelGridProps {
-  pixels: PixelsProps[];
-  onConfirm: (index: number, color: string) => Promise<void>;
-}
 
 export default function PixelGrid({ pixels, onConfirm }: PixelGridProps) {
   const [selectedIndex, setSelectedIndex] = useState<number>(-1)

@@ -2,11 +2,8 @@ import { useQuery } from "@tanstack/react-query"
 import { useActiveAccount } from "thirdweb/react"
 
 import { BP_TOKEN_ADDRESS } from "@/app/contracts"
-import { Transaction } from "@/types/index"
+import { ApiResponse, Transaction } from "@/types/index"
 
-interface ApiResponse {
-  items: Transaction[]
-}
 
 const BASE_SEPOLIA_API = "https://base-sepolia.blockscout.com/api/v2"
 
@@ -44,7 +41,7 @@ export function useUserStats() {
     const totalData: ApiResponse = await totalResponse.json();
 
     if (!userData.items || !totalData.items) {
-      throw new Error("Failed to fetch transaction data")
+      throw new Error("Failed to fetch User stats")
     }
 
     const userPixelCount = countUserPixelInteractions(userData.items, account.address)
