@@ -15,7 +15,7 @@ export interface UserProfile {
 
 export interface allowListProps {
     address: string;
-    maxClaimable: string;
+    maxClaimable: number;
 }
 
 export type UpdatePixelColorFunction = (index: number, color: string) => Promise<void>;

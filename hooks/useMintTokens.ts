@@ -3,7 +3,7 @@
 import { useState } from 'react';
 
 import { createMerkleTreeFromAllowList, getProofsForAllowListEntry } from '@thirdweb-dev/sdk';
-import { prepareContractCall, toWei } from 'thirdweb';
+import { prepareContractCall } from 'thirdweb';
 import { useActiveAccount, useSendTransaction } from 'thirdweb/react';
 
 import { BP_AIRDROP_ADDRESS } from '@/app/contracts';
@@ -15,27 +15,46 @@ export const useMintTokens = (allowList: allowListProps[]) => {
     const account = useActiveAccount();
     const {mutate: sendTransaction, data: transactionResult, isPending, error, } = useSendTransaction();
 
-    // Get proof for the user address, must be run once at contrct deployment
-    // TODO: Need to store it in the backend
+    // TODO: Need to store it in the backend - generate new proof if no changes in allowlist
     const getUserProof = async () => {
         if (!account) {
-          throw new Error("Please connect your Wallet to mint")
+            throw new Error("Please connect your Wallet to mint")
         }
-
+    
         try {
-            console.log("AllowList: ", allowList);
+            // Get merkle proof
             const merkleTree = await createMerkleTreeFromAllowList(allowList);
-            const leaf = {
-              "address": account.address,
-              "maxClaimable": "20"
-            };
-            const proof = await getProofsForAllowListEntry(merkleTree, leaf);
-            return proof as `0x${string}`[];
+            console.log("merkleTree proof", merkleTree)
+
+            // Find user in allowlist
+            const leaf = allowList.find(entry => entry.address.toLowerCase() === account.address.toLowerCase());
+    
+            if (!leaf) {
+                throw new Error("User not found in allowlist");
+            }
+
+            const proof = await getProofsForAllowListEntry(
+                merkleTree,
+                {
+                    address: leaf.address,
+                    maxClaimable: leaf.maxClaimable.toString()
+                },
+                18, // Add decimals parameter (match your token's decimals)
+            );
+
+            console.log("Verification Parameters:", {
+                receiver: account.address,
+                quantity: 5,
+                maxAllowed: leaf.maxClaimable,
+                merkleRoot: merkleTree.getHexRoot() // Add this to getUserProof
+              });
+
+            return { proof: proof as `0x${string}`[], leaf };
         } catch (error) {
             console.error("Error generating user proof: ", error);
-            return null;
+            throw new Error("Error generating user proof");
         }
-    };
+    };    
 
     const handleMint = async () => {
         if (!account) {
@@ -45,30 +64,53 @@ export const useMintTokens = (allowList: allowListProps[]) => {
         setIsMinting('pending')
 
         try {
-            const userProof = await getUserProof();
-            console.log("User Proof: ", userProof);
-            if (!userProof || userProof.length === 0) {
-                console.error("Proof is not available or invalid.");
+            const { proof, leaf } = await getUserProof();
+
+            if (!proof || proof.length === 0) {
+                console.log("Proof is not available or invalid.");
                 setIsMinting('error');
-                return;
+                throw new Error("Proof is not available or invalid.");
+            }
+
+            if (!leaf) {
+                throw new Error("User not found in allowlist");
+            }
+
+            // Convert values to BigInt
+            const quantity = BigInt(5);
+            const maxClaimable = BigInt(leaf.maxClaimable);
+
+            if (quantity > maxClaimable) {
+                throw new Error(`Cannot mint more than your maximum allowance of ${maxClaimable} tokens`);
             }
 
             const transaction = prepareContractCall({
                 contract: BP_AIRDROP_ADDRESS, 
                 method: "function claim(address _receiver, uint256 _quantity, bytes32[] _proofs, uint256 _proofMaxQuantityForWallet)", 
-                params: [account.address, toWei("5"), userProof, toWei("20")] 
-
+                params: [account.address, quantity, proof, maxClaimable] 
             })
-  
-            const transactionResult = await sendTransaction(transaction);  
+
+            console.log("Prepare claim transaction: ", transaction);
+            sendTransaction(transaction, {
+                onSuccess: (result) => {
+                    console.log("Transaction successful:", result);
+                    setIsMinting('complete');
+                    setTimeout(() => setIsMinting('init'), 5000);
+                },
+                onError: (error) => {
+                    console.error("Transaction error:", error);
+                    setIsMinting('init');
+                }
+            });
+
             setIsMinting('complete');
-            console.log("transactionResult: ", transactionResult);
 
         } catch (error) {
             if (error instanceof Error) {
+                console.error("Error in minting process: ", error);
+                setIsMinting('error');
                 throw new Error("Error in minting process: ", error)
             }
-            console.error("Error in minting process: ", error);
         }
     };
 
