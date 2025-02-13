@@ -4,7 +4,6 @@ import { ConnectButton } from 'thirdweb/react';
 import { createWallet } from "thirdweb/wallets";
 
 // import { inAppWallet } from "thirdweb/wallets";
-import { baseSepolia } from '@/app/chains';
 import { client } from '@/app/client';
 
 export default function ConnectWalletBtn() {
@@ -17,14 +16,14 @@ export default function ConnectWalletBtn() {
     <ConnectButton
       wallets={wallets}
       client={client}
-      accountAbstraction={{
+/*       accountAbstraction={{
         chain: baseSepolia,
         sponsorGas: true
-      }}
+      }} */
       connectButton={{
         label: "Connect Wallet",
       }}
-      autoConnect={false}
+      autoConnect={true}
     />
   );
 }
