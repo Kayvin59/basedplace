@@ -38,7 +38,7 @@ export default function Mint() {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center p-6 bg-white rounded-lg shadow-md max-w-sm w-full">
+        <div className="flex flex-col items-center justify-center p-6 bg-white rounded-lg shadow-md max-w-sm min-h-300 w-full">
             <h2 className="text-2xl font-bold mb-4">Mint Tokens</h2>
             <p className="text-center mb-4">To start playing, you need some tokens.</p>
             <p className="text-center mb-6">You can mint 5 $BP tokens every 24 hours.</p>

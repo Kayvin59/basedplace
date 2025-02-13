@@ -11,7 +11,7 @@ export default function PlayerStats({
   totalPixels 
 }: PlayerStatsProps) {
   return (
-    <div className="flex-1 self-center lg:self-start">
+    <div className="flex flex-1 self-center lg:self-start min-h-300">
       <div className="bg-white p-6 rounded-lg shadow-md">
         <h3 className="text-xl font-bold mb-4">Player Stats</h3>
         <div className="space-y-3">

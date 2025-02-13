@@ -108,6 +108,7 @@ const config = {
       },
       spacing: {
         '250': '250px',
+        '300': '300px',
       },
       width: {
         'separator': 'calc(100vw - 5px) !important',
