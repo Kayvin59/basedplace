@@ -1,6 +1,6 @@
-import { metaMask } from '@wagmi/connectors'
 import { createConfig, http } from 'wagmi'
 import { baseSepolia } from 'wagmi/chains'
+import { metaMask } from 'wagmi/connectors'
 
 declare module 'wagmi' {
     interface Register {
