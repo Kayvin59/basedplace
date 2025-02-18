@@ -78,7 +78,7 @@ export default function PixelGrid({ pixels, onConfirm }: PixelGridProps) {
         width={GRID_SIZE * PIXEL_SIZE}
         height={GRID_SIZE * PIXEL_SIZE}
         onClick={handleCanvasClick}
-        className="border border-foreground rounded-lg cursor-pointer bg-white"
+        className="shadow-md rounded-lg cursor-pointer bg-white"
       />
 
       <Drawer
