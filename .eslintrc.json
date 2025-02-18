@@ -50,5 +50,10 @@
         "allowSeparatedGroups": true
       }
     ]
+  },
+  "settings": {
+    "import/resolver": {
+      "typescript": {}
+    }
   }
 }
