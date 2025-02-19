@@ -1,17 +1,22 @@
 import { createConfig, http } from 'wagmi'
 import { baseSepolia } from 'wagmi/chains'
-import { metaMask } from 'wagmi/connectors'
+import { coinbaseWallet, metaMask } from 'wagmi/connectors'
 
 declare module 'wagmi' {
     interface Register {
-      config: typeof config
+      config: typeof wagmiConfig
     }
 }
 
-export const config = createConfig({
+export const wagmiConfig = createConfig({
   chains: [baseSepolia],
   transports: {
     [baseSepolia.id]: http(),
   },
-  connectors: [metaMask()]
+  connectors: [
+    metaMask(),
+    coinbaseWallet({
+      appName: 'Based Place',
+    }),
+  ]
 })

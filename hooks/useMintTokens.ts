@@ -4,7 +4,6 @@
 import { useAccount, useSimulateContract, useWriteContract } from 'wagmi';
 
 import { basedPlaceAbi } from '@/abi/BasedPlaceABI';
-import { config } from '@/app/config';
 
 export function useMintTokens() {
   const { address } = useAccount();
@@ -13,7 +12,6 @@ export function useMintTokens() {
     error: simulateError,
     isPending: isSimulating 
   } = useSimulateContract({
-    config,
     address: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as `0x${string}`,
     abi: basedPlaceAbi,
     functionName: 'claimTokens',
