@@ -1,7 +1,5 @@
 "use client"
 
-import { useEffect } from "react"
-
 import { useAccount } from 'wagmi'
 
 import Mint from "@/components/Mint"
@@ -10,9 +8,10 @@ import PlayerStats from "@/components/PlayerStats"
 import { useBalance } from "@/hooks/useBalance"
 import { usePixels } from "@/hooks/usePixels"
 import { usePixelTransaction } from "@/hooks/usePixelTransaction"
+import { useRealtimeUpdates } from "@/hooks/useRealtimeUpdates"
 import { useUserStats } from "@/hooks/useUserStats"
-import { createClient } from "@/lib/supabase/client"
 import { PixelsProps } from "@/types/index"
+
 
 export default function Playground({ initialPixels }: { initialPixels: PixelsProps[] }) {
   const account = useAccount()
@@ -21,23 +20,7 @@ export default function Playground({ initialPixels }: { initialPixels: PixelsPro
   const { userStats, isLoading: isStatsLoading, error: statsError, refetch: refetchStats } = useUserStats()
   const handleConfirm = usePixelTransaction(updatePixelColor, refetchStats)
 
-
-  useEffect(() => {
-    const supabase = createClient()
-    const channel = supabase.channel('square_pixels_changes')
-      .on(
-        'postgres_changes',
-        { event: 'UPDATE', schema: 'public', table: 'square_pixels' },
-        (payload: { new: PixelsProps }) => {
-          updatePixelColor(payload.new.id, payload.new.color)
-        }
-      )
-      .subscribe()
-
-    return () => {
-      supabase.removeChannel(channel)
-    }
-  }, [updatePixelColor])
+  useRealtimeUpdates(updatePixelColor)
 
   return (
     <>
