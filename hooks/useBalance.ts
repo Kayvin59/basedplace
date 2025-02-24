@@ -1,42 +1,27 @@
+// hooks/useBalance.ts
 "use client"
 
-// import { useEffect } from "react"
-
-import { useQuery } from "@tanstack/react-query"
-import { readContract, toEther } from "thirdweb"
-import { useActiveAccount } from "thirdweb/react"
+import { formatEther } from 'viem'
+import { useAccount, useBalance as useWagmiBalance } from 'wagmi'
 
 import { BP_TOKEN_ADDRESS } from "@/app/contracts"
 
 export function useBalance() {
-    const account = useActiveAccount()
-    const fetchBalance = async () => {
-        if (!account) {
-            return '0'
-        }
-        const balance = await readContract({
-            contract: BP_TOKEN_ADDRESS,
-            method: 'function balanceOf(address) view returns (uint256)',
-            params: [account.address],
-        })
-        return parseFloat(toEther(balance)).toFixed(2)
-    }
+    const { address } = useAccount()
     
-    const { data: formattedBalance, isLoading, refetch } = useQuery({
-        queryKey: ['balance', account?.address],
-        queryFn: fetchBalance,
-        enabled: !!account,
+    const { data, isError, isLoading } = useWagmiBalance({
+        address,
+        token: BP_TOKEN_ADDRESS.address,
     })
-/*     
-    useEffect(() => {
-        const intervalId = setInterval(() => {
-            refetch()
-            console.log('refetch balance')
-        }, 30000)
-    
-        return () => clearInterval(intervalId)
-    }, [refetch]) */
 
-    return { formattedBalance, isLoading }
+    const formattedBalance = data ? formatEther(data.value) : '0'
+
+    return { 
+        data: {
+            ...data,
+            formatted: formattedBalance
+        }, 
+        isError, 
+        isLoading 
+    }
 }
-

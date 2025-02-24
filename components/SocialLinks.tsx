@@ -14,7 +14,8 @@ import twitterLogo from '../public/twitter.svg'
 
 export default function SocialLinks() {
     const account = useActiveAccount()
-    const { formattedBalance, isLoading } = useBalance()
+    const { data, isLoading } = useBalance()
+    console.log("data", data.formatted)
 
     return (
         <div className='flex ml-auto items-center'>
@@ -23,7 +24,7 @@ export default function SocialLinks() {
                     {isLoading ? (
                         <Skeleton className="h-7 w-20" />
                     ) : (
-                        <span>{formattedBalance ?? '0'} $BP</span>
+                        <span>{data?.formatted ?? '0'} $BP</span>
                     )}
                 </div>
             )}
