@@ -3,7 +3,7 @@
 import Image from "next/image"
 import Link from "next/link"
 
-import { useActiveAccount } from "thirdweb/react"
+import { useAccount } from 'wagmi'
 
 import { Skeleton } from "@/components/ui/skeleton"
 import { useBalance } from "@/hooks/useBalance"
@@ -13,9 +13,8 @@ import twitterLogo from '../public/twitter.svg'
 
 
 export default function SocialLinks() {
-    const account = useActiveAccount()
+    const account = useAccount()
     const { data, isLoading } = useBalance()
-    console.log("data", data.formatted)
 
     return (
         <div className='flex ml-auto items-center'>
@@ -24,7 +23,9 @@ export default function SocialLinks() {
                     {isLoading ? (
                         <Skeleton className="h-7 w-20" />
                     ) : (
-                        <span>{data?.formatted ?? '0'} $BP</span>
+                        <>
+                            <span>{parseFloat(data?.formatted || '0').toFixed(2)} $BP</span>
+                        </>
                     )}
                 </div>
             )}

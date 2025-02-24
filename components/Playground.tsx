@@ -2,7 +2,7 @@
 
 import { useEffect } from "react"
 
-import { useActiveAccount } from "thirdweb/react"
+import { useAccount } from 'wagmi'
 
 import Mint from "@/components/Mint"
 import PixelGrid from "@/components/PixelGrid"
@@ -15,8 +15,8 @@ import { createClient } from "@/lib/supabase/client"
 import { PixelsProps } from "@/types/index"
 
 export default function Playground({ initialPixels }: { initialPixels: PixelsProps[] }) {
-  const account = useActiveAccount()
-  const { formattedBalance, isLoading: isBalanceLoading } = useBalance()
+  const account = useAccount()
+  const { data, isLoading: isBalanceLoading } = useBalance()
   const { pixels, updatePixelColor } = usePixels(initialPixels)
   const { userStats, isLoading: isStatsLoading, error: statsError, refetch: refetchStats } = useUserStats()
   const handleConfirm = usePixelTransaction(updatePixelColor, refetchStats)
@@ -48,7 +48,7 @@ export default function Playground({ initialPixels }: { initialPixels: PixelsPro
             <Mint />
             <PixelGrid pixels={pixels} onConfirm={handleConfirm} />
             <PlayerStats 
-              formattedBalance={formattedBalance}
+              formattedBalance={data?.formatted}
               isBalanceLoading={isBalanceLoading}
               userPoints={userStats?.userPixelCount ?? 0}
               totalPixels={userStats?.totalPixelsColored ?? 0}
