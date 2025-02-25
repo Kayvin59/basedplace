@@ -1,12 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
-import { useActiveAccount } from "thirdweb/react";
+import { useAccount } from 'wagmi';
 
 import { BASE_SEPOLIA_API } from "@/app/constants";
 import { BP_TOKEN_ADDRESS } from "@/app/contracts";
 import { ApiResponse, Transaction } from "@/types/index";
 
 
-function countUserPixelInteractions(transactions: Transaction[], accountAddress: string): number {
+function countUserPixelInteractions(transactions: Transaction[], accountAddress: string = ''): number {
     return transactions.filter(
       (tx) => 
         tx.method === "transferFrom" && 
@@ -24,13 +24,14 @@ function countTotalPixelInteractions(transactions: Transaction[]): number {
 }
 
 export function useUserStats() {
-  const account = useActiveAccount()
+  const account = useAccount()
+  const { address } = useAccount();
 
   const fetchUserStats = async () => {
     if (!account) return null
 
     const userResponse = await fetch(
-      `${BASE_SEPOLIA_API}/addresses/${account.address}/transactions?filter=to:${BP_TOKEN_ADDRESS}`
+      `${BASE_SEPOLIA_API}/addresses/${address}/transactions?filter=to:${BP_TOKEN_ADDRESS}`
     )
     const userData: ApiResponse = await userResponse.json()
 
@@ -43,7 +44,7 @@ export function useUserStats() {
       throw new Error("Failed to fetch User stats")
     }
 
-    const userPixelCount = countUserPixelInteractions(userData.items, account.address)
+    const userPixelCount = countUserPixelInteractions(userData.items, address)
     const totalPixelsColored = countTotalPixelInteractions(totalData.items)
 
     return {

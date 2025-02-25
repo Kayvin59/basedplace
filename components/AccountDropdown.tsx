@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { useActiveAccount } from 'thirdweb/react';
+import { useAccount } from 'wagmi';
 
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
@@ -10,7 +10,7 @@ import userLogo from '../public/user.svg';
 
 
 export default function AccountDropdown() {
-    const account = useActiveAccount();
+    const account = useAccount();
     return (
         <>
             {account && (

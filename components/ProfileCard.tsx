@@ -5,44 +5,28 @@ import { useEffect, useState } from "react";
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { useActiveAccount, useActiveWalletConnectionStatus } from "thirdweb/react";
+import { useAccount } from 'wagmi';
 
-import { createClient } from "@/lib/supabase/client";
+import { fetchUserProfile } from "@/lib/api";
 import { UserProfile } from "@/types/index";
 
 import externalLink from '../public/external-link.svg';
 
 export default function ProfileCard() {
     const [userProfileData, setUserProfileData] = useState<UserProfile | null>(null);
-
-    const status = useActiveWalletConnectionStatus();
-    const account = useActiveAccount();
-    let isConnected = false;
-    if (status === 'connected') {
-        isConnected = true;
-    }
+    const { address, isConnected } = useAccount()
 
     useEffect(() => {
-        if(isConnected && account) {
-            getUserProfile(account.address)
+        if(isConnected && address) {
+            getUserProfile(address)
         }
-    }, [isConnected, account])
+    }, [isConnected, address])
 
     async function getUserProfile(address: string) {
-        const supabase = createClient();
-        const { data, error } = await supabase
-          .from('users_profile')
-          .select('*')
-          .eq('address', address)
-          .maybeSingle();
-    
-        if (error) {
-          console.error('Failed to fetch user profile');
-          return null;
+        const data = await fetchUserProfile(address)
+        if(data) {
+            setUserProfileData(data)
         }
-        console.log('User profile fetched: ', data);
-        setUserProfileData(data);
-        return data;
     }
 
     return (
