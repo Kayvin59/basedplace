@@ -1,29 +1,39 @@
 "use client"
 
-import { ConnectButton } from 'thirdweb/react';
-import { createWallet } from "thirdweb/wallets";
+import {
+  Address,
+  Avatar,
+  Identity,
+  Name,
+} from '@coinbase/onchainkit/identity';
+import {
+  ConnectWallet,
+  Wallet,
+  WalletDropdown,
+  WalletDropdownDisconnect,
+} from '@coinbase/onchainkit/wallet';
 
-// import { inAppWallet } from "thirdweb/wallets";
-import { client } from '@/app/client';
 
 export default function ConnectWalletBtn() {
-  const wallets = [
-    createWallet("com.coinbase.wallet"),
-    createWallet("io.metamask"),
-  ];
 
   return (
-    <ConnectButton
-      wallets={wallets}
-      client={client}
-/*       accountAbstraction={{
-        chain: baseSepolia,
-        sponsorGas: true
-      }} */
-      connectButton={{
-        label: "Connect Wallet",
-      }}
-      autoConnect={true}
-    />
+    <>
+      <div className="flex">
+        <Wallet>
+          <ConnectWallet  className='w-fit inline-flex text-white text-base bg-footer hover:bg-foreground py-2 px-4 rounded-md'>
+            <Avatar className="h-6 w-6" />
+            <Name />
+          </ConnectWallet>
+          <WalletDropdown>
+            <Identity className="px-4 pt-3 pb-2" hasCopyAddressOnClick>
+              <Avatar />
+              <Name /> 
+              <Address />
+            </Identity>
+            <WalletDropdownDisconnect />
+          </WalletDropdown>
+        </Wallet>
+      </div>
+    </>
   );
 }

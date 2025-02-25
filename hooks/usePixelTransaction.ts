@@ -1,65 +1,60 @@
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 
-import { prepareContractCall, sendTransaction, toWei } from 'thirdweb'
-import { useActiveAccount } from "thirdweb/react"
+import { useAccount, useSimulateContract, useWriteContract } from 'wagmi'
 
-import { BP_TOKEN_ADDRESS } from "@/app/contracts"
-
-const BP_TOKEN_ADDRESS_WITH_PREFIX = BP_TOKEN_ADDRESS.address as `0x${string}`
+import { basedPlaceAbi } from '@/abi/BasedPlaceABI'
+import { BP_TOKEN_ADDRESS } from '@/app/contracts'
 
 export function usePixelTransaction(
   updatePixelColor: (index: number, color: string) => Promise<void>,
   refetchStats: () => void
 ) {
-  const account = useActiveAccount()
+  const { address, isConnected } = useAccount()
+  const [isLoading, setIsLoading] = useState(false)
+  const [isPlaySuccess, setIsPlaySuccess] = useState(false)
+
+  // Use writeContract hook for the play function
+  const { writeContract: play, isPending: isPlayPending } = useWriteContract()
+
+  // Simulate the play function call (play requires no arguments)
+  const { data: playSimData } = useSimulateContract({
+    address: BP_TOKEN_ADDRESS.address,
+    abi: basedPlaceAbi,
+    functionName: 'play',
+    args: [],
+    account: address,
+  })
 
   const handleConfirm = useCallback(async (index: number, color: string) => {
-    if (!account) {
+    if (!isConnected) {
       throw new Error("Please connect your Wallet to play")
     }
 
+    setIsLoading(true)
+    setIsPlaySuccess(false)
+
     try {
-      const amount = toWei("1")
-      
-      // Approve
-      const approveTx = prepareContractCall({
-        method: "function approve(address spender, uint256 amount) returns (bool)",
-        params: [account.address, amount],
-        contract: BP_TOKEN_ADDRESS,
-      })
-
-      console.log("Approving transaction...")
-      const approveResult = await sendTransaction({ transaction: approveTx, account })
-      
-      if (!approveResult) {
-        throw new Error("Approval transaction failed")
+      console.log("Simulating play transaction...")
+      if (playSimData?.request) {
+        await play(playSimData.request)
+        setIsPlaySuccess(true)
       }
 
-      console.log("Approval successful, proceeding with transfer...")
-
-      // Transfer
-      const transferTx = prepareContractCall({
-        contract: BP_TOKEN_ADDRESS,
-        method: "function transferFrom(address from, address to, uint256 amount) returns (bool)",
-        params: [account.address, BP_TOKEN_ADDRESS_WITH_PREFIX, amount],
-      })
-
-      console.log("Initiating transfer...")
-      const transferResult = await sendTransaction({ transaction: transferTx, account })
-
-      if (!transferResult) {
-        throw new Error("Transfer transaction failed")
-      }
-
-      console.log("Transfer successful, updating pixel color...")
+      console.log("Play transaction successful, updating pixel color...")
       await updatePixelColor(index, color)
       refetchStats()
     } catch (error) {
       if (error instanceof Error) {
-        throw new Error("Error in transaction process: ", error)
+        throw new Error("Error in transaction process: " + error.message)
       }
+    } finally {
+      setIsLoading(false)
     }
-  }, [account, updatePixelColor, refetchStats])
+  }, [isConnected, play, playSimData, updatePixelColor, refetchStats])
 
-  return handleConfirm
+  return {
+    handleConfirm,
+    isLoading: isLoading || isPlayPending,
+    isPlaySuccess,
+  }
 }

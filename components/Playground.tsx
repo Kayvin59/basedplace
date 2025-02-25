@@ -19,8 +19,8 @@ export default function Playground({ initialPixels }: { initialPixels: PixelsPro
   const { data, isLoading: isBalanceLoading } = useBalance()
   const { pixels, updatePixelColor } = usePixels(initialPixels)
   const { userStats, isLoading: isStatsLoading, error: statsError, refetch: refetchStats } = useUserStats()
-  const handleConfirm = usePixelTransaction(updatePixelColor, refetchStats)
-
+  const { handleConfirm, isLoading, isPlaySuccess } = usePixelTransaction(updatePixelColor, refetchStats);
+  // TODO: add transaction status message (isLoading, isPlaySuccess + error ?)
   useRealtimeUpdates(updatePixelColor)
 
   return (
