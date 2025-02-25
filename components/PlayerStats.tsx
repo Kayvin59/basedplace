@@ -25,9 +25,13 @@ export default function PlayerStats({
           </div>
           <div className="flex items-center">
             <Trophy className="mr-2 text-blue-500" />
-            <span>Points: 
+            <span className="flex items-center">Points: 
               {isPointsLoading ? (
-                <Skeleton className="h-4 w-5 ml-1" />
+                <>
+                  <span className="ml-1">
+                    <Skeleton className="h-4 w-5" />
+                  </span>
+                </>
               ) : (
                 <span className="ml-1">{userPoints}</span>
               )}
