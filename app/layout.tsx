@@ -1,6 +1,6 @@
 import { ReactNode } from 'react';
 
-import { abril_fatface, merriweather } from '@/app/font';
+import { abril_fatface, lexend } from '@/app/font';
 import "@/app/globals.css";
 import { Providers } from '@/components/providers';
 
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 export default function RootLayout(props: { children: ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${abril_fatface.variable} ${merriweather.variable} relative`}>
+      <body className={`${abril_fatface.variable} ${lexend.variable} relative`}>
         <Providers>{props.children}</Providers>
       </body>
     </html>
