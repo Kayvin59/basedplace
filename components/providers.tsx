@@ -9,6 +9,7 @@ import { baseSepolia } from 'wagmi/chains';
 
 import { wagmiConfig } from '@/app/config';
 
+
 const queryClient = new QueryClient()
 
 export function Providers({ children }: { children: ReactNode }) {
@@ -26,6 +27,17 @@ export function Providers({ children }: { children: ReactNode }) {
         <OnchainKitProvider
           apiKey={process.env.NEXT_PUBLIC_ONCHAINKIT_API_KEY}
           chain={baseSepolia}
+          projectId={process.env.NEXT_PUBLIC_ONCHAINKIT_PROJECT_ID}
+          config={{
+            appearance: {
+              name: 'Based Place',
+              logo: 'https://onchainkit.xyz/favicon/48x48.png?v4-19-24',
+            },
+            // paymaster: paymasters?.[chainId || 84532]?.url,
+            wallet: {
+              display: 'modal',
+            },
+          }}
         >
           {children}
         </OnchainKitProvider>

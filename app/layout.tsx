@@ -3,8 +3,8 @@ import { ReactNode } from 'react';
 import { abril_fatface, lexend } from '@/app/font';
 import "@/app/globals.css";
 import { Providers } from '@/components/providers';
-
 import '@coinbase/onchainkit/styles.css';
+
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {

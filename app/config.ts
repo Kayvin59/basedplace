@@ -1,6 +1,6 @@
-import { createConfig, http, injected } from 'wagmi'
+import { createConfig, http } from 'wagmi'
 import { baseSepolia } from 'wagmi/chains'
-import { coinbaseWallet } from 'wagmi/connectors'
+import { coinbaseWallet, metaMask } from 'wagmi/connectors'
 
 declare module 'wagmi' {
     interface Register {
@@ -14,10 +14,10 @@ export const wagmiConfig = createConfig({
     coinbaseWallet({
       appName: 'Based Place',
     }),
-    injected({
+    metaMask(),
+/*     injected({
       target: 'metaMask',
-      shimDisconnect: true,
-    }),
+    }), */
   ],
   ssr: true,
   transports: {
