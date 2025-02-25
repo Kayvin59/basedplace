@@ -14,11 +14,12 @@ import twitterLogo from '../public/twitter.svg'
 
 export default function SocialLinks() {
     const account = useAccount()
+    const isConnected = account?.isConnected
     const { data, isLoading } = useBalance()
 
     return (
         <div className='flex ml-auto items-center'>
-            {account && (
+            {isConnected && (
                 <div className="flex items-center gap-1 text-xl font-primary font-bold min-w-[100px]">
                     {isLoading ? (
                         <Skeleton className="h-7 w-20" />

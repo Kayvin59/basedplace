@@ -11,9 +11,10 @@ import userLogo from '../public/user.svg';
 
 export default function AccountDropdown() {
     const account = useAccount();
+    const isConnected = account?.isConnected;
     return (
         <>
-            {account && (
+            {isConnected && (
                 <div className='mr-4 sm:mr-8'>
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
