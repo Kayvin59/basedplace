@@ -1,4 +1,3 @@
-// components/Mint.tsx
 'use client';
 
 import { useEffect } from 'react';
@@ -11,7 +10,6 @@ export default function Mint() {
   const { address } = useAccount();
   const { handleMint, isPending, error, reset } = useMintTokens();
 
-  // Reset state when address changes
   useEffect(() => reset(), [address, reset]);
 
   return (

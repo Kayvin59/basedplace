@@ -9,7 +9,6 @@ import { baseSepolia } from 'wagmi/chains';
 
 import { wagmiConfig } from '@/app/config';
 
-
 const queryClient = new QueryClient()
 
 export function Providers({ children }: { children: ReactNode }) {

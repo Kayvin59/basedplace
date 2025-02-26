@@ -7,7 +7,7 @@ import Link from 'next/link';
 
 import { useAccount } from 'wagmi';
 
-import { fetchUserProfile } from "@/lib/api";
+import { fetchUserProfile } from "@/lib/supabase/index";
 import { UserProfile } from "@/types/index";
 
 import externalLink from '../public/external-link.svg';
