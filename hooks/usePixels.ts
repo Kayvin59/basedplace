@@ -1,14 +1,14 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useState } from 'react';
 
-import { createClient } from "@/lib/supabase/client"
-import { PixelsProps, UpdatePixelColorFunction } from "@/types/index"
+import { createSupabaseClient } from '@/lib/supabase/client';
+import { PixelsProps, UpdatePixelColorFunction } from "@/types/index";
 
 export function usePixels(initialPixels: PixelsProps[]) {
   const [pixels, setPixels] = useState<PixelsProps[]>(initialPixels)
 
   const updatePixelColor: UpdatePixelColorFunction = useCallback(async (index: number, color: string) => {
     try {
-      const supabase = createClient()
+      const supabase = createSupabaseClient()
       const { error } = await supabase
         .from('square_pixels')
         .update({ color })

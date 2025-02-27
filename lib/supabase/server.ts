@@ -1,8 +1,9 @@
 import { cookies } from 'next/headers'
 
-import { type CookieOptions, createServerClient } from '@supabase/ssr'
+// eslint-disable-next-line sort-imports
+import { createServerClient, type CookieOptions } from '@supabase/ssr'
 
-export function createClient() {
+export function createSupabaseServer() {
   const cookieStore = cookies()
 
   return createServerClient(

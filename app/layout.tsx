@@ -16,6 +16,7 @@ export default function RootLayout(props: { children: ReactNode }) {
   return (
     <html lang="en">
       <body className={`${abril_fatface.variable} ${lexend.variable} relative`}>
+        {/* // TODO: Add realtime provider */}
         <Providers>{props.children}</Providers>
       </body>
     </html>

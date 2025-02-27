@@ -6,15 +6,14 @@ import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import Playground from '@/components/Playground';
 import { getPixels } from '@/lib/supabase';
-import { createClient } from '@/lib/supabase/client';
+import { createSupabaseClient } from '@/lib/supabase/client';
 
 
 export default async function Home() {
-  // TODO: Move to playground component : await getpixelsFromDb()
   const pixels = await getPixels();
-  const client = createClient();
+  const client = createSupabaseClient();
+  
   // Join the realtime room
-  // TODO: Right place to be triggered?
   const realtimeRoom = client.channel('realtime', {
     config: {
       broadcast: { self: true}
@@ -31,7 +30,7 @@ export default async function Home() {
     (payload) => console.log(payload)
   ).subscribe()
 
-  // TODO: Add cleanup room
+  // TODO: Add cleanup room ?
 
   return (
     <>
@@ -42,6 +41,7 @@ export default async function Home() {
           </section>
           <ActionPanel />
           <section id="playground" className="w-11/12 mb-16 border rounded-lg bg-white">
+            {/* // TODO: Add suspense wrapper + playground skeleton */}
             <Playground initialPixels={pixels ?? []}/>
           </section>
           <section id="profile" className="w-11/12 mb-16 border rounded-lg bg-white">
