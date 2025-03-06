@@ -5,7 +5,7 @@ import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import Playground from '@/components/Playground';
-import { getPixels } from '@/lib/supabase';
+import { getPixels } from '@/lib/supabase/action';
 import { createSupabaseClient } from '@/lib/supabase/client';
 
 
