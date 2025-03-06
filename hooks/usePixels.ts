@@ -1,6 +1,8 @@
+"use client"
+
 import { useCallback, useState } from 'react';
 
-import { createSupabaseClient } from '@/lib/supabase/client';
+import { updateColor } from '@/lib/supabase';
 import { PixelsProps, UpdatePixelColorFunction } from "@/types/index";
 
 export function usePixels(initialPixels: PixelsProps[]) {
@@ -8,16 +10,11 @@ export function usePixels(initialPixels: PixelsProps[]) {
 
   const updatePixelColor: UpdatePixelColorFunction = useCallback(async (index: number, color: string) => {
     try {
-      const supabase = createSupabaseClient()
-      const { error } = await supabase
-        .from('square_pixels')
-        .update({ color })
-        .eq('id', pixels[index].id)
-
-      if (error) {
-        throw new Error(`Failed to update color in database: ${error.message}`)
+      const pixelId = pixels[index].id
+      const success = await updateColor(pixelId, color)
+      if (!success) {
+        throw new Error("Failed to update color in database")
       }
-
       setPixels(prevPixels => 
         prevPixels.map((pixel, i) => 
           i === index ? { ...pixel, color } : pixel

@@ -1,17 +1,6 @@
 import { createSupabaseClient } from '@/lib/supabase/client';
-import { createSupabaseServer } from '@/lib/supabase/server';
 import { UserProfile } from '@/types';
 
-
-export async function getPixels() {
-  const supabase = createSupabaseServer();
-  const { data: pixels, error } = await supabase.from('square_pixels').select().order('id', { ascending: true });
-
-  if (error) {
-      console.error("Error fetching data from database", error);
-  }
-  return pixels;
-}
 
 export async function updateColor(pixelsId: number, newColor: string) {
   const supabase = createSupabaseClient();
@@ -22,7 +11,7 @@ export async function updateColor(pixelsId: number, newColor: string) {
     return false;
   }
 
-  console.log("Color updated successfully");
+  console.log("updateColor: Color updated successfully");
   return true;
 }
 
@@ -51,9 +40,9 @@ export async function fetchUserProfile(address: string): Promise<UserProfile | n
       console.error('Failed to create user profile:', createError)
       return null
     }
-
+    console.log('Created new user profile:', newProfile)
     return newProfile
   }
-
+  console.log('Fetched user profile:', data)
   return data
 }
