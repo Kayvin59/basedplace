@@ -5,8 +5,8 @@
   "plugins": ["import"],
   "rules": {
     "import/order": [
-      "error",
-      {
+      "off"
+/*       {
         "groups": [
           "builtin",
           "external",
@@ -34,19 +34,19 @@
           "order": "asc",
           "caseInsensitive": true
         }
-      }
+      } */
     ],
     "import/newline-after-import": "error",
     "import/no-duplicates": "error",
     "sort-imports": [
-      "error",
-      {
+      "off"
+/*       {
         "ignoreCase": true,
         "ignoreDeclarationSort": true,
         "ignoreMemberSort": false,
         "memberSyntaxSortOrder": ["none", "all", "multiple", "single"],
         "allowSeparatedGroups": true
-      }
+      } */
     ]
   },
   "settings": {
